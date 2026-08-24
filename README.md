@@ -9,7 +9,7 @@ evaluation. 本專題以可重現、可稽核的方式研究單一停車格裁�
 
 ## 🚀 Live Demo
 
-> **Deployment pending.** Public Streamlit URL: `STREAMLIT_LIVE_DEMO_URL_PENDING`
+### [▶ Open the Public Streamlit Demo](https://parking-occupancy-detection-hk9l6wzyvtkrqjr6tkvftc.streamlit.app/)
 
 The demo accepts one JPEG, PNG, or WebP crop and runs the locked V2-A model on
 CPU. **This demo expects a pre-cropped image of a single parking space.**
