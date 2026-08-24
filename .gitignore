@@ -233,6 +233,10 @@ data/processed/
 !data/processed/
 data/processed/*
 !data/processed/.gitkeep
+data/external/
+!data/external/
+data/external/*
+!data/external/.gitkeep
 
 # Model checkpoints
 models/*.pt
