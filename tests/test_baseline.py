@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path, PurePosixPath
 
 import torch
+import os
 from PIL import Image
 
 from src.dataset import (
@@ -20,6 +21,17 @@ from src.train_baseline import binary_metrics
 from src.prepare_pklot_manifest import parse_patch_path
 from src.prepare_pklot_adaptation_split import assign_date_groups
 from src.analyze_errors import make_error_row, rank_errors, representative_errors
+from src.inference import (
+    decode_uploaded_image,
+    prediction_from_probabilities,
+    resolve_checkpoint_path,
+)
+from src.prepare_v2_protocol import assign_v2_date_groups
+from src.v2_training import (
+    balanced_site_label_sampler,
+    build_efficientnet_b0,
+    validation_rank,
+)
 
 
 class BaselineTests(unittest.TestCase):
@@ -195,6 +207,99 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(lower["error_type"], "false_positive")
         self.assertEqual(rank_errors([lower, higher], "false_positive", 1), [higher])
         self.assertEqual(representative_errors([lower, higher]), [higher])
+
+    def test_demo_decodes_supported_image_and_rejects_invalid_upload(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            image_path = Path(directory) / "sample.png"
+            Image.new("RGB", (40, 60), color=(10, 20, 30)).save(image_path)
+            image = decode_uploaded_image(image_path.read_bytes())
+            self.assertEqual((image.mode, image.size), ("RGB", (40, 60)))
+        with self.assertRaisesRegex(ValueError, "valid decodable image"):
+            decode_uploaded_image(b"not an image")
+
+    def test_demo_prediction_and_checkpoint_resolution(self) -> None:
+        result = prediction_from_probabilities(torch.tensor([0.25, 0.75]))
+        self.assertEqual(result["label"], "OCCUPIED")
+        self.assertAlmostEqual(result["confidence"], 0.75)
+        threshold_result = prediction_from_probabilities(torch.tensor([0.5, 0.5]))
+        self.assertEqual(threshold_result["label"], "OCCUPIED")
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            checkpoint = root / "selected.pt"
+            checkpoint.touch()
+            self.assertEqual(resolve_checkpoint_path(checkpoint, root), checkpoint.resolve())
+            previous = os.environ.pop("PARKING_MODEL_PATH", None)
+            try:
+                with self.assertRaisesRegex(FileNotFoundError, "PARKING_MODEL_PATH"):
+                    resolve_checkpoint_path(repository_root=root)
+            finally:
+                if previous is not None:
+                    os.environ["PARKING_MODEL_PATH"] = previous
+
+    def test_v2_protocol_is_deterministic_and_keeps_final_out_of_development(self) -> None:
+        dates = {
+            "PUC": {f"2012-09-{day:02d}" for day in range(1, 16)},
+            "UFPR04": {f"2013-01-{day:02d}" for day in range(1, 16)},
+        }
+        v1_splits = {
+            (site, date): (
+                "adaptation_train" if index == 0 else "heldout_evaluation"
+            )
+            for site, site_dates in dates.items()
+            for index, date in enumerate(sorted(site_dates))
+        }
+        kwargs = {
+            "dates_by_site": dates,
+            "v1_split_by_date": v1_splits,
+            "protocol_id": "test-v2",
+            "train_dates_per_site": 4,
+            "validation_dates_per_site": 2,
+            "final_fraction": 0.20,
+        }
+        first = assign_v2_date_groups(**kwargs)
+        second = assign_v2_date_groups(**kwargs)
+        self.assertEqual(first, second)
+        for site in dates:
+            site_assignments = {
+                date: split
+                for (assigned_site, date), split in first.items()
+                if assigned_site == site
+            }
+            self.assertEqual(list(site_assignments.values()).count("v2_train"), 4)
+            self.assertEqual(list(site_assignments.values()).count("v2_validation"), 2)
+            self.assertEqual(
+                list(site_assignments.values()).count("v2_fresh_final_evaluation"),
+                3,
+            )
+            for date, split in site_assignments.items():
+                if split == "v2_fresh_final_evaluation":
+                    self.assertEqual(v1_splits[(site, date)], "heldout_evaluation")
+
+    def test_v2_sampler_balances_site_label_cells(self) -> None:
+        samples = [
+            ("a.jpg", 0, "PUC"),
+            ("b.jpg", 0, "PUC"),
+            ("c.jpg", 1, "PUC"),
+            ("d.jpg", 1, "UFPR04"),
+        ]
+        sampler, counts = balanced_site_label_sampler(samples, seed=105)
+        self.assertEqual(len(sampler), len(samples))
+        self.assertEqual(
+            counts,
+            {"PUC:0": 2, "PUC:1": 1, "UFPR04:1": 1},
+        )
+
+    def test_v2_validation_rank_and_efficientnet_output(self) -> None:
+        metrics = {
+            "overall": {"f1_occupied": 0.8},
+            "selection": {
+                "macro_site_f1_occupied": 0.7,
+                "minimum_site_recall_occupied": 0.6,
+            },
+        }
+        self.assertEqual(validation_rank(metrics), (0.7, 0.6, 0.8))
+        model = build_efficientnet_b0(pretrained=False)
+        self.assertEqual(tuple(model(torch.zeros(1, 3, 64, 64)).shape), (1, 2))
 
 
 if __name__ == "__main__":

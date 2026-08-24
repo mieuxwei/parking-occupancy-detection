@@ -1,0 +1,250 @@
+{
+  "status": "precommitted_no_training",
+  "generated_at_utc": "2026-08-24T09:17:54.558490+00:00",
+  "protocol_id": "pklot-v2-robustness-v1",
+  "source_manifest": "pklot_adaptation_manifest.csv.gz",
+  "source_manifest_sha256": "c0965e66278f78290bd0d830db6dabc560b097cefd82de5d6c2c983bde1ab280",
+  "v2_manifest": "pklot_v2_protocol_manifest.csv.gz",
+  "v2_manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+  "date_assignments": "PKLOT_V2_DATE_SPLIT.csv",
+  "date_assignments_sha256": "2521a59fff936428360318c67d2727729b4bf2167f2efbfeedb41948f66f84b6",
+  "error_manifest_read_or_used": false,
+  "assignment": {
+    "group_key": [
+      "site",
+      "capture_date"
+    ],
+    "method": "SHA-256 rank within site; reserve final before development",
+    "protocol_id": "pklot-v2-robustness-v1",
+    "train_dates_per_site": 4,
+    "validation_dates_per_site": 2,
+    "final_fraction_of_all_dates_per_site": 0.2,
+    "final_candidates": "V1 heldout_evaluation dates only",
+    "metric_or_error_based_selection": false
+  },
+  "rows": 695695,
+  "unique_image_ids": 695695,
+  "unique_source_frames": 12508,
+  "site_date_groups": 101,
+  "row_counts": {
+    "unused_reserve": 420502,
+    "v2_fresh_final_evaluation": 154669,
+    "v2_train": 78376,
+    "v2_validation": 42148
+  },
+  "site_date_group_counts": {
+    "unused_reserve": 62,
+    "v2_fresh_final_evaluation": 21,
+    "v2_train": 12,
+    "v2_validation": 6
+  },
+  "date_assignments_by_split": {
+    "v2_train": {
+      "PUC": [
+        "2012-09-12",
+        "2012-10-09",
+        "2012-10-14",
+        "2012-11-10"
+      ],
+      "UFPR04": [
+        "2012-12-11",
+        "2012-12-22",
+        "2012-12-28",
+        "2013-01-22"
+      ],
+      "UFPR05": [
+        "2013-03-12",
+        "2013-03-15",
+        "2013-04-08",
+        "2013-04-10"
+      ]
+    },
+    "v2_validation": {
+      "PUC": [
+        "2012-09-13",
+        "2012-09-14"
+      ],
+      "UFPR04": [
+        "2012-12-15",
+        "2013-01-17"
+      ],
+      "UFPR05": [
+        "2013-02-23",
+        "2013-03-16"
+      ]
+    },
+    "v2_fresh_final_evaluation": {
+      "PUC": [
+        "2012-09-18",
+        "2012-09-19",
+        "2012-09-28",
+        "2012-10-13",
+        "2012-10-26",
+        "2012-10-27",
+        "2012-11-06",
+        "2012-11-07"
+      ],
+      "UFPR04": [
+        "2012-12-08",
+        "2012-12-12",
+        "2012-12-20",
+        "2012-12-24",
+        "2012-12-29",
+        "2013-01-20"
+      ],
+      "UFPR05": [
+        "2013-02-22",
+        "2013-02-24",
+        "2013-03-05",
+        "2013-03-06",
+        "2013-03-13",
+        "2013-03-19",
+        "2013-04-11"
+      ]
+    },
+    "unused_reserve": {
+      "PUC": [
+        "2012-09-11",
+        "2012-09-15",
+        "2012-09-16",
+        "2012-09-17",
+        "2012-09-20",
+        "2012-09-21",
+        "2012-09-27",
+        "2012-09-29",
+        "2012-10-05",
+        "2012-10-11",
+        "2012-10-12",
+        "2012-10-15",
+        "2012-10-16",
+        "2012-10-17",
+        "2012-10-23",
+        "2012-10-25",
+        "2012-10-28",
+        "2012-10-29",
+        "2012-10-30",
+        "2012-10-31",
+        "2012-11-08",
+        "2012-11-09",
+        "2012-11-11",
+        "2012-11-20"
+      ],
+      "UFPR04": [
+        "2012-12-07",
+        "2012-12-13",
+        "2012-12-14",
+        "2012-12-16",
+        "2012-12-17",
+        "2012-12-18",
+        "2012-12-19",
+        "2012-12-21",
+        "2012-12-23",
+        "2012-12-25",
+        "2012-12-26",
+        "2012-12-27",
+        "2013-01-15",
+        "2013-01-16",
+        "2013-01-18",
+        "2013-01-19",
+        "2013-01-21",
+        "2013-01-29"
+      ],
+      "UFPR05": [
+        "2013-02-26",
+        "2013-02-28",
+        "2013-03-01",
+        "2013-03-02",
+        "2013-03-03",
+        "2013-03-09",
+        "2013-03-10",
+        "2013-03-11",
+        "2013-03-14",
+        "2013-03-17",
+        "2013-03-18",
+        "2013-03-20",
+        "2013-03-21",
+        "2013-03-22",
+        "2013-04-09",
+        "2013-04-12",
+        "2013-04-13",
+        "2013-04-14",
+        "2013-04-15",
+        "2013-04-16"
+      ]
+    }
+  },
+  "counts": {
+    "v2_train": {
+      "site": {
+        "PUC": 46490,
+        "UFPR04": 14411,
+        "UFPR05": 17475
+      },
+      "weather": {
+        "cloudy": 40574,
+        "rainy": 7057,
+        "sunny": 30745
+      },
+      "occupancy": {
+        "0": 41738,
+        "1": 36638
+      }
+    },
+    "v2_validation": {
+      "site": {
+        "PUC": 23321,
+        "UFPR04": 6810,
+        "UFPR05": 12017
+      },
+      "weather": {
+        "cloudy": 4399,
+        "rainy": 2058,
+        "sunny": 35691
+      },
+      "occupancy": {
+        "0": 23791,
+        "1": 18357
+      }
+    },
+    "v2_fresh_final_evaluation": {
+      "site": {
+        "PUC": 90781,
+        "UFPR04": 23135,
+        "UFPR05": 40753
+      },
+      "weather": {
+        "cloudy": 47658,
+        "rainy": 20818,
+        "sunny": 86193
+      },
+      "occupancy": {
+        "0": 76086,
+        "1": 78583
+      }
+    },
+    "unused_reserve": {
+      "site": {
+        "PUC": 263475,
+        "UFPR04": 61487,
+        "UFPR05": 95540
+      },
+      "weather": {
+        "cloudy": 136500,
+        "rainy": 70010,
+        "sunny": 213992
+      },
+      "occupancy": {
+        "0": 216378,
+        "1": 204124
+      }
+    }
+  },
+  "leakage_checks": {
+    "site_date_groups_in_multiple_v2_splits": 0,
+    "source_frames_in_multiple_v2_splits": 0,
+    "duplicate_image_ids": 0,
+    "fresh_final_dates_used_by_v1_adaptation": 0,
+    "fresh_final_dates_used_by_v2_development": 0,
+    "passed": true
+  }
+}

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">V1 versus V2 improvement</title>
+<desc id="desc">Dumbbell chart compares V1 and V2-A accuracy, occupied F1, macro-site F1, and UFPR04 occupied recall.</desc>
+<rect x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<text x="100" y="92" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="42" font-weight="500" fill="#172033" text-anchor="start">V2-A closes the documented UFPR04 recall gap</text>
+<text x="100" y="132" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="400" fill="#566176" text-anchor="start">One-time comparison on the same 154,669 fresh-final samples</text>
+<rect x="1120" y="82" width="24" height="24" rx="12" fill="#7656C8" stroke="none" stroke-width="0"/>
+<text x="1158" y="103" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="20" font-weight="400" fill="#172033" text-anchor="start">V1</text>
+<rect x="1280" y="82" width="24" height="24" rx="12" fill="#0F9D8A" stroke="none" stroke-width="0"/>
+<text x="1318" y="103" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="20" font-weight="400" fill="#172033" text-anchor="start">V2-A</text>
+<line x1="578.1818181818182" y1="205" x2="578.1818181818182" y2="760" stroke="#DCE2EC" stroke-width="2"/>
+<text x="578.1818181818182" y="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#566176" text-anchor="middle">0.85</text>
+<line x1="869.0909090909096" y1="205" x2="869.0909090909096" y2="760" stroke="#DCE2EC" stroke-width="2"/>
+<text x="869.0909090909096" y="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#566176" text-anchor="middle">0.90</text>
+<line x1="1160.0000000000002" y1="205" x2="1160.0000000000002" y2="760" stroke="#DCE2EC" stroke-width="2"/>
+<text x="1160.0000000000002" y="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#566176" text-anchor="middle">0.95</text>
+<line x1="1450.9090909090914" y1="205" x2="1450.9090909090914" y2="760" stroke="#DCE2EC" stroke-width="2"/>
+<text x="1450.9090909090914" y="800" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#566176" text-anchor="middle">1.00</text>
+<text x="1000.0" y="846" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="22" font-weight="400" fill="#566176" text-anchor="middle">Score (shared fresh-final protocol)</text>
+<text x="450" y="283" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#172033" text-anchor="end">Accuracy</text>
+<text x="450" y="314" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="end">Δ +0.007060</text>
+<line x1="1403.398835871795" y1="275" x2="1444.4765860703124" y2="275" stroke="#566176" stroke-width="8"/>
+<circle cx="1403.398835871795" cy="275" r="14" fill="#7656C8"/>
+<circle cx="1444.4765860703124" cy="275" r="14" fill="#0F9D8A"/>
+<text x="1385.398835871795" y="248" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#7656C8" text-anchor="end">0.991834</text>
+<text x="1462.4765860703124" y="319" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#0F9D8A" text-anchor="start">0.998894</text>
+<text x="450" y="418" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#172033" text-anchor="end">Occupied F1</text>
+<text x="450" y="449" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="end">Δ +0.007002</text>
+<line x1="1403.840703976112" y1="410" x2="1444.5797097761297" y2="410" stroke="#566176" stroke-width="8"/>
+<circle cx="1403.840703976112" cy="410" r="14" fill="#7656C8"/>
+<circle cx="1444.5797097761297" cy="410" r="14" fill="#0F9D8A"/>
+<text x="1385.840703976112" y="383" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#7656C8" text-anchor="end">0.991910</text>
+<text x="1462.5797097761297" y="454" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#0F9D8A" text-anchor="start">0.998912</text>
+<text x="450" y="553" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#172033" text-anchor="end">Macro-site F1</text>
+<text x="450" y="584" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="end">Δ +0.025531</text>
+<line x1="1295.1702889322069" y1="545" x2="1443.7138491478336" y2="545" stroke="#566176" stroke-width="8"/>
+<circle cx="1295.1702889322069" cy="545" r="14" fill="#7656C8"/>
+<circle cx="1443.7138491478336" cy="545" r="14" fill="#0F9D8A"/>
+<text x="1277.1702889322069" y="518" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#7656C8" text-anchor="end">0.973232</text>
+<text x="1461.7138491478336" y="589" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#0F9D8A" text-anchor="start">0.998763</text>
+<text x="450" y="688" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#172033" text-anchor="end">UFPR04 occupied recall</text>
+<text x="450" y="719" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="end">Δ +0.140947</text>
+<line x1="630.85671530116" y1="680" x2="1450.9090909090914" y2="680" stroke="#566176" stroke-width="8"/>
+<circle cx="630.85671530116" cy="680" r="14" fill="#7656C8"/>
+<circle cx="1450.9090909090914" cy="680" r="14" fill="#0F9D8A"/>
+<text x="612.85671530116" y="653" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#7656C8" text-anchor="end">0.859053</text>
+<text x="1468.9090909090914" y="724" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="19" font-weight="400" fill="#0F9D8A" text-anchor="start">1.000000</text>
+</svg>

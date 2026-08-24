@@ -2,7 +2,88 @@
 
 ## Current Milestone
 
-Milestone 9 — Error Analysis (completed on 2026-08-24).
+Milestone 11 — Portfolio Finalization. Completed on 2026-08-24. The final
+production model is the locked V2-A balanced ResNet18; no new modeling work was
+performed.
+
+## Milestone 11 Finalization
+
+- Preserved the complete research progression and every earlier metric in its
+  original dataset/split context; no completed result JSON was overwritten or
+  reinterpreted.
+- Updated the existing Streamlit inference integration to accept only the
+  selected `v2a_balanced_resnet18` checkpoint format and changed the default to
+  `models/v2a_balanced_resnet18.pt`.
+- Kept preprocessing fixed at symmetric edge padding, 224×224 bilinear resize,
+  and ImageNet normalization; made the locked occupied threshold 0.5 explicit.
+- Added candidate, architecture, experiment-config-hash, and pre-selection
+  boundary validation before the demo loads a checkpoint.
+- Re-verified the production checkpoint SHA-256
+  `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`,
+  selection lock, and completed fresh-final result without reopening evaluation.
+- Passed a real V2-A CPU inference smoke test and browser-verified the existing
+  Streamlit initial/upload/result states. The sample returned `OCCUPIED`; this
+  was a UI smoke test, not a new evaluation result.
+- Preserved the original V1 demo screenshots/GIF and Milestone 10 demo report;
+  added separate V2-A screenshots and `images/v2_parking_occupancy_demo.gif`.
+- Rebuilt `README.md` as a bilingual portfolio README with final highlights,
+  model comparison, research progression, experiment boundaries, error summary,
+  demo instructions, limitations, and application-material links.
+- Added `docs/MODEL_COMPARISON.md`, retaining separate fair-comparison sections
+  for CNR validation, V1 adaptation, V2 validation selection, and fresh final.
+- Added the bilingual `docs/FINAL_RESEARCH_SUMMARY.md`, 1–2 page
+  `docs/GRADUATE_APPLICATION_ABSTRACT.md`, and concise
+  `docs/CV_PROJECT_DESCRIPTION.md` with a technical-skills matrix.
+- Added `docs/FINAL_DEMO.md` for the production V2-A inference contract and
+  browser validation record.
+- Generated `images/research_workflow.svg`, `images/domain_shift.svg`, and
+  `images/v1_v2_improvement.svg` directly from locked result JSON values.
+- Browser-rendered and visually checked all three SVGs; corrected comparison
+  labels before finalizing them.
+- Added `images/repository_qr.png`, pointing to the configured GitHub origin,
+  and `src/generate_portfolio_assets.py` for reproducible portfolio assets.
+- Did not retrain either model, evaluate EfficientNet on fresh final, reopen
+  fresh final, change splits, calibrate confidence, change threshold, or revise
+  a model from final results.
+- The historical V1 registry now reports expected mismatches only for
+  `app/app.py` and `src/inference.py`, because Milestone 11 explicitly
+  authorized the production-demo checkpoint update. All other 26 registered V1
+  checkpoints, results, local manifests, documentation files, and original demo
+  media still match their frozen hashes.
+- Final verification: 23 automated tests passed, Python compilation passed, all
+  repository-local Markdown links resolved, the QR decoded to the configured
+  GitHub origin, `git diff --check` passed, and no private SSD path was found in
+  portfolio artifacts.
+
+### Milestone 11 files
+
+New:
+
+- `docs/MODEL_COMPARISON.md`
+- `docs/FINAL_RESEARCH_SUMMARY.md`
+- `docs/GRADUATE_APPLICATION_ABSTRACT.md`
+- `docs/CV_PROJECT_DESCRIPTION.md`
+- `docs/FINAL_DEMO.md`
+- `images/research_workflow.svg`
+- `images/domain_shift.svg`
+- `images/v1_v2_improvement.svg`
+- `images/repository_qr.png`
+- `images/v2_demo_initial.png`
+- `images/v2_demo_inference_result.png`
+- `images/v2_parking_occupancy_demo.gif`
+- `src/generate_portfolio_assets.py`
+
+Modified:
+
+- `README.md`
+- `app/app.py`
+- `src/inference.py`
+- `tests/test_baseline.py`
+- `HANDOFF.md`
+
+Dataset source, size, labels, and split assignments did not change during
+Milestone 11. Large images remain only on external storage. Final labels remain
+`0=EMPTY`, `1=OCCUPIED`; fresh final remains exactly 154,669 samples and closed.
 
 ## Completed
 
@@ -160,6 +241,145 @@ Milestone 9 — Error Analysis (completed on 2026-08-24).
 - Saved the aggregate analysis in `results/error_analysis.json` and documented
   the protocol, findings, artifacts, and limitations in
   `docs/ERROR_ANALYSIS.md`.
+- Added `src/inference.py` as the reusable single-image inference layer for the
+  locked PKLot fine-tuned ResNet18 checkpoint.
+- Added a minimal Streamlit interface in `app/app.py` for one cropped
+  parking-space image, returning `EMPTY` or `OCCUPIED`, predicted-class
+  confidence, and both class scores.
+- Reused the exact 224×224 edge-padding, resizing, and ImageNet normalization
+  from the completed ResNet18 experiments; no weights or threshold changed.
+- Added configurable `PARKING_MODEL_PATH` checkpoint resolution with the local
+  ignored Milestone 8 checkpoint as the repository-relative default.
+- Added content-based JPEG/PNG/WebP decoding, a 10 MB upload limit, empty/corrupt
+  upload handling, and explicit missing/incompatible-checkpoint errors.
+- Confirmed the demo does not require `PARKING_DATA_ROOT`, access the external
+  SSD, save uploaded images, or implement full-frame parking-space detection.
+- Installed and recorded Streamlit as the only new project dependency for this
+  milestone.
+- Loaded the real checkpoint into a fresh CPU model and passed a direct
+  single-image inference smoke test.
+- Opened the app at localhost and verified the initial state, 10 MB limit,
+  supported formats, file upload, image preview, label, confidence, and both
+  class scores through the browser.
+- Added a small demonstration sample, initial/result screenshots, and
+  `images/parking_occupancy_demo.gif`. These are documentation derivatives, not
+  evaluation data or new metrics.
+- Added inference/upload/checkpoint tests; all 18 automated tests pass.
+- Documented setup, inference contract, validation, and limitations in
+  `docs/DEMO.md`, and added launch instructions and the GIF to `README.md`.
+- Inserted Milestone 10.5 between Demo and Portfolio Finalization in
+  `PROJECT_PLAN.md` at the user's explicit request.
+- Added `src/freeze_v1_artifacts.py` and created
+  `data/V1_ARTIFACT_LOCK.json`, a byte-size/SHA-256 registry for all completed
+  V1 checkpoints, result JSONs, local adaptation/error manifests, and milestone
+  reports. Later runs verify the registry instead of overwriting it.
+- Locked the V1 PKLot checkpoint SHA-256
+  `e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce`
+  and retained every completed V1 metric and error-analysis statement without
+  modification or reinterpretation.
+- Added `src/prepare_v2_protocol.py`; it reads only the clean V1 adaptation
+  manifest and does not read or reuse the held-out error manifest.
+- Precommitted a deterministic SHA-256-ranked V2 split grouped by complete
+  `(site, capture_date)` units. Final dates are reserved first and can only come
+  from dates excluded from V1 adaptation.
+- Assigned 78,376 samples from 12 dates to V2 train, 42,148 samples from six
+  dates to V2 validation, 154,669 samples from 21 dates to fresh final, and
+  420,502 samples from 62 dates to unused reserve.
+- Passed all V2 leakage checks: zero site-date, source-frame, or image-ID leaks;
+  zero fresh-final dates used by V1 adaptation or V2 development.
+- Saved the tracked authoritative 101-row date assignment in
+  `data/PKLOT_V2_DATE_SPLIT.csv` and the ignored reproducible full manifest in
+  `data/processed/pklot_v2_protocol_manifest.csv.gz` with SHA-256
+  `4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7`.
+- Precommitted the complete training/evaluation configuration in
+  `data/PKLOT_V2_EXPERIMENT_CONFIG.json`: site-and-class-balanced sampling, mild
+  augmentation, one ResNet18 candidate, one controlled EfficientNet-B0
+  candidate, validation-only selection, and a one-time V1/V2 fresh-final
+  comparison.
+- Explicitly forbade the error manifest, aggregate error JSON, and error contact
+  sheets as V2 training, sampling, validation, or selection inputs.
+- Precommitted the final robustness gate: at least +0.02 absolute UFPR04
+  occupied recall with no more than -0.005 absolute overall occupied F1. The
+  gate is reported only after selection and cannot drive post-final changes.
+- Documented the design and important limitation in
+  `docs/MODEL_ROBUSTNESS_PROTOCOL.md`: every PKLot image previously received a
+  V1 prediction, so fresh final means V2-development-disjoint and
+  V1-adaptation-disjoint, not never previously inferred by V1.
+- Saved the machine-readable protocol audit in `results/v2_protocol.json`.
+- Added deterministic V2 assignment tests; all 19 tests pass. No images were
+  loaded, no model was trained, and fresh-final inference was not opened.
+- Added `src/v2_training.py` with the locked augmentation, development-only
+  dataset boundary, site-and-label sampler, EfficientNet-B0 constructor, MPS
+  training loop, per-site validation metrics, and lexicographic validation rank.
+- Added `src/train_v2_candidates.py`; it requires the exact precommitted config,
+  V2 manifest, and V1 checkpoint hashes, refuses fresh-final dataset names,
+  refuses checkpoint/selection-lock overwrites, and records partial results
+  after every epoch.
+- Trained V2-A ResNet18 for exactly two full fine-tuning epochs using only
+  78,376-sample balanced draws from `v2_train` and selected its epoch 2 using
+  only the 42,148-sample `v2_validation` set.
+- V2-A epoch 2 validation accuracy/F1 are 0.999478/0.999401 with confusion
+  `[[23777, 14], [8, 18349]]`; macro-site F1 is 0.999489 and minimum-site recall
+  is 0.999512.
+- V2-A UFPR04 validation recall is 1.0 with confusion
+  `[[5257, 2], [0, 1551]]`.
+- Saved `models/v2a_balanced_resnet18.pt` with SHA-256
+  `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.
+- Trained V2-B EfficientNet-B0 for exactly one head epoch and two full
+  fine-tuning epochs under the same split, sampler, augmentation, seed, loss,
+  and validation-selection protocol; selected its epoch 3.
+- V2-B epoch 3 validation accuracy/F1 are 0.998909/0.998748 with confusion
+  `[[23756, 35], [11, 18346]]`; macro-site F1 is 0.999104 and minimum-site
+  recall is 0.998048.
+- Saved `models/v2b_balanced_efficientnet_b0.pt` with SHA-256
+  `d3baa8374b012954aa24892bd53313a6d0735cc87b4ae3d4d8bd6ce688650185`.
+- Applied the precommitted validation ranking exactly. V2-A ResNet18 epoch 2 won
+  on primary macro-site F1 and is the only selected V2 checkpoint.
+- Locked the selection, both candidate rank tuples, config/manifest hashes, and
+  selected checkpoint SHA in `data/V2_SELECTED_CHECKPOINT.json` with SHA-256
+  `60743fb7594e05cd7c2726a2a1029853f99473cfe20179e15cae1c78ee084e9e`.
+- Saved exact configs, seed 105, all five epoch histories, overall/per-site
+  Accuracy/Precision/Recall/F1/confusion matrices, checkpoint hashes,
+  MPS/runtime information, and library versions in
+  `results/v2_training_selection.json`.
+- Total training, validation, and selection runtime was 5,621.12 seconds. V2-A
+  used 2,037.25 seconds and V2-B used 3,536.19 seconds.
+- Verified that fresh-final dataset instantiated=false, fresh-final images
+  opened=0, error artifacts read=false, and Streamlit Demo updated=false in the
+  result, both checkpoints, and selection lock.
+- Re-verified all 30 frozen V1 artifacts after training; no V1 file or completed
+  metric changed.
+- Added candidate/sampler/model tests; all 21 tests pass.
+- Documented the complete training histories and validation-only selection in
+  `docs/V2_TRAINING_SELECTION.md`.
+- Re-verified all 30 frozen V1 artifacts immediately before the fresh-final run;
+  all registered hashes matched and no completed V1 result changed.
+- Re-verified the selected V2-A checkpoint SHA-256
+  `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`
+  against `data/V2_SELECTED_CHECKPOINT.json` before opening final.
+- Wrote `data/V2_FRESH_FINAL_OPENED.json` immediately before the first image was
+  read, then evaluated V1 and V2-A together in one deterministic traversal of
+  exactly 154,669 `v2_fresh_final_evaluation` samples.
+- Used the same 224×224 edge-padding, bilinear resizing, ImageNet normalization,
+  label definitions, evaluation code, sample order, and threshold 0.5 for both
+  immutable ResNet18 models.
+- V1 fresh-final accuracy/precision/recall/occupied-F1 are
+  0.991834/0.998594/0.985315/0.991910; its confusion matrix is
+  `[[75977, 109], [1154, 77429]]` and macro-site F1 is 0.973232.
+- V2-A fresh-final accuracy/precision/recall/occupied-F1 are
+  0.998894/0.998766/0.999058/0.998912; its confusion matrix is
+  `[[75989, 97], [74, 78509]]` and macro-site F1 is 0.998763.
+- UFPR04 occupied recall improved from 0.859053 to 1.000000, an absolute gain
+  of 0.140947. Overall occupied F1 improved by 0.007002.
+- Both precommitted robustness conditions passed: UFPR04 recall gain was at
+  least +0.02 and overall occupied-F1 degradation was no worse than -0.005.
+- Saved exact overall, per-site, per-weather, FP/FN, hashes, runtime/device,
+  comparison, and gate data in `results/v2_fresh_final_comparison.json`.
+- Saved the human-readable comparison table and audit summary in
+  `docs/V2_FRESH_FINAL_COMPARISON.md`.
+- The one-time run used Apple MPS and took 726.74 seconds. EfficientNet-B0 was
+  not evaluated; neither model, the Streamlit demo, nor any V1 artifact changed.
+- Added the locked final evaluator and gate tests; all 23 automated tests pass.
 
 ## Current State
 
@@ -192,6 +412,22 @@ Milestone 9 — Error Analysis (completed on 2026-08-24).
   metadata; it must not be promoted into adaptation train/validation data.
 - Three tracked contact sheets are small documentation derivatives. The source
   PKLot images and all large archives remain only on external storage.
+- The Streamlit demo runs locally with the ignored selected V2-A checkpoint. It
+  is not deployed and does not bundle model weights.
+- The demo accepts only a pre-cropped single parking-space image; full-frame
+  parking-space localization remains out of scope.
+- V1 artifacts are frozen by `data/V1_ARTIFACT_LOCK.json`. V2 work must create
+  new checkpoint and result filenames and must never overwrite registered paths.
+- The V2 split/config hashes are precommitted. Any change requires a separately
+  versioned protocol before training, not an in-place edit.
+- Fresh final has been opened exactly once and the comparison is complete. It
+  must not be reopened or used for further model updates.
+- The Streamlit interface layout remains unchanged; its authorized Milestone 11
+  checkpoint integration now defaults to and validates only selected V2-A.
+- The selected V2 checkpoint is `models/v2a_balanced_resnet18.pt`; it is ignored
+  by Git and must match the selection-lock SHA before any final evaluation.
+- The unselected EfficientNet-B0 checkpoint and full validation history are
+  retained for audit but cannot replace the selected model after final opens.
 
 ## Key Decision
 
@@ -211,6 +447,13 @@ test.
 - Keep CNRPark cameras A/B as a cross-subset diagnostic, not a cross-location
   claim.
 - Use PKLot for the completed genuine cross-location evaluation.
+- For Milestone 10.5, use `data/PKLOT_V2_DATE_SPLIT.csv` as the authoritative
+  date grouping: 12 train, six validation, 21 fresh-final, and 62 unused-reserve
+  site-date groups.
+- Balance V2 training draws across `(site, occupancy)` cells while keeping
+  validation/final distributions natural.
+- Select between the two precommitted V2 candidates using validation metrics
+  only, then lock one checkpoint before the one-time V1/V2 final comparison.
 
 ## External Storage Setup
 
@@ -225,10 +468,12 @@ Do not commit the actual machine-specific path.
 
 ## Next Step
 
-Milestone 10 — Minimal Demo. Build a small inference interface for one uploaded
-cropped parking-space image using the selected fine-tuned checkpoint. Return
-`EMPTY` or `OCCUPIED` plus confidence, reuse the exact ResNet18 preprocessing,
-validate file type and decode failures, and keep `PARKING_DATA_ROOT` and the
-checkpoint path configurable. Do not add training, automatic parking-space
-detection, dataset copying, deployment, or portfolio-finalization work to the
-minimal demo.
+Stop. Milestone 11 and the planned portfolio deliverables are complete. The
+repository is ready for user review and normal Git/GitHub publication workflow.
+Do not reopen fresh final or start another modeling cycle from its results.
+
+## User Decision Required
+
+No research or modeling decision is pending. Optional publication actions such
+as committing, pushing, deploying, or editing personal application details were
+not performed and remain under user control.

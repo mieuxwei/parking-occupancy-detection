@@ -1,0 +1,53 @@
+{
+  "status": "fresh_final_opened_one_time_evaluation_complete",
+  "opened_at_utc": "2026-08-24T11:56:19.827807+00:00",
+  "split": "v2_fresh_final_evaluation",
+  "samples": 154669,
+  "manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+  "experiment_config_sha256": "57fb8133760cc7eded11eb77e9c1ce5aa67d5379bfbfe33539b279e95a024957",
+  "selection_lock_sha256": "60743fb7594e05cd7c2726a2a1029853f99473cfe20179e15cae1c78ee084e9e",
+  "models": {
+    "v1_finetuned_resnet18": {
+      "checkpoint": "models/resnet18_pklot_finetuned.pt",
+      "sha256": "e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce"
+    },
+    "v2a_balanced_resnet18": {
+      "checkpoint": "models/v2a_balanced_resnet18.pt",
+      "sha256": "97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9"
+    }
+  },
+  "threshold": 0.5,
+  "preprocessing": {
+    "input_size": 224,
+    "padding": "symmetric edge padding to square",
+    "resize_interpolation": "bilinear antialias",
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "label_definitions": {
+    "0": "EMPTY",
+    "1": "OCCUPIED"
+  },
+  "retraining_or_recalibration_allowed": false,
+  "runtime": {
+    "device": "mps",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.9.6",
+    "torch": "2.8.0",
+    "torchvision": "0.23.0",
+    "numpy": "2.0.2",
+    "batch_size": 128,
+    "workers": 2
+  },
+  "completed_at_utc": "2026-08-24T12:08:26.572682+00:00",
+  "result": "results/v2_fresh_final_comparison.json",
+  "result_sha256": "44652a36777b9d5267e205b6af6d664c9d2a63ea787619fab45ed7764b0997a6"
+}

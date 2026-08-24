@@ -264,29 +264,35 @@ models/*.ckpt
 - 顯示 confidence
 - Demo video / GIF
 
+### Milestone 10.5 — Model Robustness Improvement
+- Freeze and preserve all completed V1 artifacts and results
+- Precommit a new leakage-safe V2 development and fresh-final protocol
+- Focus model development on the documented UFPR04 false-negative weakness
+- Evaluate balanced site/label sampling and reasonable augmentation
+- Allow at most one controlled alternative backbone such as EfficientNet-B0
+- Keep the analyzed V1 held-out result immutable and exclude its error manifest
+  from all V2 training and model selection
+- Compare locked V1 and selected V2 once on the same fresh final date groups
+- Keep the existing Streamlit demo unchanged until a V2 model is selected
+
 ### Milestone 11 — Portfolio Finalization
-- README
-- Architecture diagram
-- Model comparison table
-- Demo
-- Research summary
-- QR Code
-- 備審摘要
+- Bilingual polished README and research progression table
+- Architecture/workflow, domain-shift, and V1-versus-V2 visualizations
+- Boundary-aware model comparison table and error-analysis summary
+- V2-A production demo, screenshots, and GIF
+- Bilingual final research summary and graduate-application abstract
+- Short CV/resume description and technical-skills summary
+- Repository QR code
+- Final HANDOFF and integrity audit
 
 ## 14. Current Priority
 
-目前只處理：
+目前專題已完成 Milestone 11 Portfolio Finalization。最終 production model
+為 selected V2-A balanced ResNet18；fresh-final evaluation 已關閉，不得用於
+後續調參或模型更新。
 
-> Project Setup → Dataset Research → Split Strategy
-
-目前不要：
-- 訓練模型
-- 大量下載 dataset
-- 做 YOLO
-- 做整張停車場自動框選
-- 做 Web App
-- 填假 metrics
-- 宣稱系統完成
+Final scope remains cropped parking-space classification. YOLO、完整停車場自動
+框選、fresh-final reopening 與新一輪 modeling 不屬於本專題已完成範圍。
 
 ## 15. Instructions for Codex
 
@@ -339,10 +345,10 @@ models/*.ckpt
 
 ## 18. Project Status
 
-🚧 In Development
+✅ Complete
 
 Current Stage:
-> Milestone 1 — Project Setup
+> Milestone 11 — Portfolio Finalization completed
 
 Next Stage:
-> Milestone 2 — Dataset Research
+> None planned; repository is ready for review and publication

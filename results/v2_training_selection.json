@@ -1,0 +1,831 @@
+{
+  "status": "complete_selected_fresh_final_unopened",
+  "started_at_utc": "2026-08-24T09:27:44.787184+00:00",
+  "experiment_config": "PKLOT_V2_EXPERIMENT_CONFIG.json",
+  "experiment_config_sha256": "57fb8133760cc7eded11eb77e9c1ce5aa67d5379bfbfe33539b279e95a024957",
+  "v2_manifest": "pklot_v2_protocol_manifest.csv.gz",
+  "v2_manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+  "v1_checkpoint_sha256": "e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce",
+  "device": "mps",
+  "seed": 105,
+  "fresh_final_dataset_instantiated": false,
+  "fresh_final_images_opened": 0,
+  "error_artifacts_read": false,
+  "candidates": [
+    {
+      "status": "complete",
+      "candidate_config": {
+        "id": "v2a_balanced_resnet18",
+        "architecture": "ResNet18",
+        "initialization": "locked V1 PKLot fine-tuned checkpoint",
+        "full_finetune_epochs": 2,
+        "backbone_learning_rate": 5e-06,
+        "classifier_learning_rate": 2e-05,
+        "head_only_epochs": 0,
+        "manifest": "pklot_v2_protocol_manifest.csv.gz",
+        "manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+        "train_split": "v2_train",
+        "validation_split": "v2_validation",
+        "fresh_final_dataset_instantiated": false,
+        "fresh_final_images_opened": 0,
+        "error_artifacts_read": false,
+        "sampler": {
+          "method": "WeightedRandomSampler",
+          "balance_unit": [
+            "site",
+            "occupancy"
+          ],
+          "sample_weight": "inverse frequency of the sample's (site, occupancy) cell within v2_train",
+          "replacement": true,
+          "samples_per_epoch": 78376,
+          "validation_and_final_sampling": "natural distribution, deterministic sequential order",
+          "class_weights_in_loss": null
+        },
+        "sampler_cell_counts": {
+          "PUC:0": 30549,
+          "PUC:1": 15941,
+          "UFPR04:0": 8438,
+          "UFPR04:1": 5973,
+          "UFPR05:0": 2751,
+          "UFPR05:1": 14724
+        },
+        "preprocessing": {
+          "input_size": 224,
+          "padding": "symmetric edge padding to square",
+          "resize_interpolation": "bilinear antialias",
+          "normalization_mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "normalization_std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        },
+        "augmentation": {
+          "random_horizontal_flip_probability": 0.5,
+          "random_rotation_degrees": 7,
+          "color_jitter": {
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.1,
+            "hue": 0.02
+          },
+          "random_crop": false,
+          "vertical_flip": false,
+          "rationale": "Mild photometric and orientation variation without cropping away occupancy evidence or applying implausible vertical geometry."
+        },
+        "common_training": {
+          "optimizer": "AdamW",
+          "loss": "CrossEntropyLoss",
+          "weight_decay": 0.0001,
+          "train_batch_size": 32,
+          "eval_batch_size": 128,
+          "workers": 2,
+          "seed": 105,
+          "selection_primary": "macro average of occupied F1 across PUC, UFPR04, and UFPR05 on v2_validation",
+          "selection_tiebreak_1": "minimum site occupied recall on v2_validation",
+          "selection_tiebreak_2": "overall occupied F1 on v2_validation",
+          "fresh_final_used_for_selection": false
+        },
+        "device": "mps",
+        "train_samples": 78376,
+        "validation_samples": 42148,
+        "parameter_count": 11177538
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "phase": "full_finetune",
+          "train_loss": 0.009763568499420318,
+          "validation": {
+            "overall": {
+              "accuracy": 0.9995254816361393,
+              "precision_occupied": 0.9995641039612052,
+              "recall_occupied": 0.9993462984147736,
+              "f1_occupied": 0.9994551893217107,
+              "confusion_matrix": [
+                [
+                  23783,
+                  8
+                ],
+                [
+                  12,
+                  18345
+                ]
+              ],
+              "samples": 42148,
+              "loss": 0.0035807995799040514
+            },
+            "by_site": {
+              "PUC": {
+                "accuracy": 0.9993139230736247,
+                "precision_occupied": 0.999525584547611,
+                "recall_occupied": 0.9993901199430779,
+                "f1_occupied": 0.9994578476551911,
+                "confusion_matrix": [
+                  [
+                    8557,
+                    7
+                  ],
+                  [
+                    9,
+                    14748
+                  ]
+                ],
+                "samples": 23321
+              },
+              "UFPR04": {
+                "accuracy": 0.9997063142437592,
+                "precision_occupied": 0.9993552546744036,
+                "recall_occupied": 0.9993552546744036,
+                "f1_occupied": 0.9993552546744036,
+                "confusion_matrix": [
+                  [
+                    5258,
+                    1
+                  ],
+                  [
+                    1,
+                    1550
+                  ]
+                ],
+                "samples": 6810
+              },
+              "UFPR05": {
+                "accuracy": 0.9998335691104269,
+                "precision_occupied": 1.0,
+                "recall_occupied": 0.9990239141044412,
+                "f1_occupied": 0.99951171875,
+                "confusion_matrix": [
+                  [
+                    9968,
+                    0
+                  ],
+                  [
+                    2,
+                    2047
+                  ]
+                ],
+                "samples": 12017
+              }
+            },
+            "selection": {
+              "macro_site_f1_occupied": 0.9994416070265316,
+              "minimum_site_recall_occupied": 0.9990239141044412,
+              "overall_f1_occupied": 0.9994551893217107,
+              "rank_tuple": [
+                0.9994416070265316,
+                0.9990239141044412,
+                0.9994551893217107
+              ]
+            }
+          },
+          "duration_seconds": 992.809549833
+        },
+        {
+          "epoch": 2,
+          "phase": "full_finetune",
+          "train_loss": 0.002907884901559536,
+          "validation": {
+            "overall": {
+              "accuracy": 0.9994780297997532,
+              "precision_occupied": 0.9992375973424822,
+              "recall_occupied": 0.9995641989431825,
+              "f1_occupied": 0.999400871459695,
+              "confusion_matrix": [
+                [
+                  23777,
+                  14
+                ],
+                [
+                  8,
+                  18349
+                ]
+              ],
+              "samples": 42148,
+              "loss": 0.0034529248017491384
+            },
+            "by_site": {
+              "PUC": {
+                "accuracy": 0.9991852836499292,
+                "precision_occupied": 0.9991871020186966,
+                "recall_occupied": 0.9995256488446161,
+                "f1_occupied": 0.9993563467597142,
+                "confusion_matrix": [
+                  [
+                    8552,
+                    12
+                  ],
+                  [
+                    7,
+                    14750
+                  ]
+                ],
+                "samples": 23321
+              },
+              "UFPR04": {
+                "accuracy": 0.9997063142437592,
+                "precision_occupied": 0.9987121699935608,
+                "recall_occupied": 1.0,
+                "f1_occupied": 0.9993556701030928,
+                "confusion_matrix": [
+                  [
+                    5257,
+                    2
+                  ],
+                  [
+                    0,
+                    1551
+                  ]
+                ],
+                "samples": 6810
+              },
+              "UFPR05": {
+                "accuracy": 0.9999167845552135,
+                "precision_occupied": 1.0,
+                "recall_occupied": 0.9995119570522206,
+                "f1_occupied": 0.9997559189650964,
+                "confusion_matrix": [
+                  [
+                    9968,
+                    0
+                  ],
+                  [
+                    1,
+                    2048
+                  ]
+                ],
+                "samples": 12017
+              }
+            },
+            "selection": {
+              "macro_site_f1_occupied": 0.9994893119426345,
+              "minimum_site_recall_occupied": 0.9995119570522206,
+              "overall_f1_occupied": 0.999400871459695,
+              "rank_tuple": [
+                0.9994893119426345,
+                0.9995119570522206,
+                0.999400871459695
+              ]
+            }
+          },
+          "duration_seconds": 1044.161611083
+        }
+      ],
+      "best_epoch": 2,
+      "best_validation": {
+        "overall": {
+          "accuracy": 0.9994780297997532,
+          "precision_occupied": 0.9992375973424822,
+          "recall_occupied": 0.9995641989431825,
+          "f1_occupied": 0.999400871459695,
+          "confusion_matrix": [
+            [
+              23777,
+              14
+            ],
+            [
+              8,
+              18349
+            ]
+          ],
+          "samples": 42148,
+          "loss": 0.0034529248017491384
+        },
+        "by_site": {
+          "PUC": {
+            "accuracy": 0.9991852836499292,
+            "precision_occupied": 0.9991871020186966,
+            "recall_occupied": 0.9995256488446161,
+            "f1_occupied": 0.9993563467597142,
+            "confusion_matrix": [
+              [
+                8552,
+                12
+              ],
+              [
+                7,
+                14750
+              ]
+            ],
+            "samples": 23321
+          },
+          "UFPR04": {
+            "accuracy": 0.9997063142437592,
+            "precision_occupied": 0.9987121699935608,
+            "recall_occupied": 1.0,
+            "f1_occupied": 0.9993556701030928,
+            "confusion_matrix": [
+              [
+                5257,
+                2
+              ],
+              [
+                0,
+                1551
+              ]
+            ],
+            "samples": 6810
+          },
+          "UFPR05": {
+            "accuracy": 0.9999167845552135,
+            "precision_occupied": 1.0,
+            "recall_occupied": 0.9995119570522206,
+            "f1_occupied": 0.9997559189650964,
+            "confusion_matrix": [
+              [
+                9968,
+                0
+              ],
+              [
+                1,
+                2048
+              ]
+            ],
+            "samples": 12017
+          }
+        },
+        "selection": {
+          "macro_site_f1_occupied": 0.9994893119426345,
+          "minimum_site_recall_occupied": 0.9995119570522206,
+          "overall_f1_occupied": 0.999400871459695,
+          "rank_tuple": [
+            0.9994893119426345,
+            0.9995119570522206,
+            0.999400871459695
+          ]
+        }
+      },
+      "validation_rank": [
+        0.9994893119426345,
+        0.9995119570522206,
+        0.999400871459695
+      ],
+      "checkpoint": "v2a_balanced_resnet18.pt",
+      "checkpoint_sha256": "97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9",
+      "duration_seconds": 2037.245405
+    },
+    {
+      "status": "complete",
+      "candidate_config": {
+        "id": "v2b_balanced_efficientnet_b0",
+        "architecture": "EfficientNet-B0",
+        "initialization": "torchvision ImageNet-1K V1 weights",
+        "head_only_epochs": 1,
+        "head_learning_rate": 0.0001,
+        "full_finetune_epochs": 2,
+        "backbone_learning_rate": 1e-05,
+        "classifier_learning_rate": 5e-05,
+        "controlled_difference": "architecture and its required initialization only; split, sampler, augmentation, loss, batch sizes, seed, and validation selection rule remain fixed",
+        "manifest": "pklot_v2_protocol_manifest.csv.gz",
+        "manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+        "train_split": "v2_train",
+        "validation_split": "v2_validation",
+        "fresh_final_dataset_instantiated": false,
+        "fresh_final_images_opened": 0,
+        "error_artifacts_read": false,
+        "sampler": {
+          "method": "WeightedRandomSampler",
+          "balance_unit": [
+            "site",
+            "occupancy"
+          ],
+          "sample_weight": "inverse frequency of the sample's (site, occupancy) cell within v2_train",
+          "replacement": true,
+          "samples_per_epoch": 78376,
+          "validation_and_final_sampling": "natural distribution, deterministic sequential order",
+          "class_weights_in_loss": null
+        },
+        "sampler_cell_counts": {
+          "PUC:0": 30549,
+          "PUC:1": 15941,
+          "UFPR04:0": 8438,
+          "UFPR04:1": 5973,
+          "UFPR05:0": 2751,
+          "UFPR05:1": 14724
+        },
+        "preprocessing": {
+          "input_size": 224,
+          "padding": "symmetric edge padding to square",
+          "resize_interpolation": "bilinear antialias",
+          "normalization_mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "normalization_std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        },
+        "augmentation": {
+          "random_horizontal_flip_probability": 0.5,
+          "random_rotation_degrees": 7,
+          "color_jitter": {
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.1,
+            "hue": 0.02
+          },
+          "random_crop": false,
+          "vertical_flip": false,
+          "rationale": "Mild photometric and orientation variation without cropping away occupancy evidence or applying implausible vertical geometry."
+        },
+        "common_training": {
+          "optimizer": "AdamW",
+          "loss": "CrossEntropyLoss",
+          "weight_decay": 0.0001,
+          "train_batch_size": 32,
+          "eval_batch_size": 128,
+          "workers": 2,
+          "seed": 105,
+          "selection_primary": "macro average of occupied F1 across PUC, UFPR04, and UFPR05 on v2_validation",
+          "selection_tiebreak_1": "minimum site occupied recall on v2_validation",
+          "selection_tiebreak_2": "overall occupied F1 on v2_validation",
+          "fresh_final_used_for_selection": false
+        },
+        "device": "mps",
+        "train_samples": 78376,
+        "validation_samples": 42148,
+        "parameter_count": 4010110
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "phase": "head",
+          "train_loss": 0.07718810317611038,
+          "validation": {
+            "overall": {
+              "accuracy": 0.9845781531745279,
+              "precision_occupied": 0.9669321238331312,
+              "recall_occupied": 0.9987470719616495,
+              "f1_occupied": 0.9825821319470498,
+              "confusion_matrix": [
+                [
+                  23164,
+                  627
+                ],
+                [
+                  23,
+                  18334
+                ]
+              ],
+              "samples": 42148,
+              "loss": 0.0434932543394902
+            },
+            "by_site": {
+              "PUC": {
+                "accuracy": 0.9751725912267913,
+                "precision_occupied": 0.9626680590001305,
+                "recall_occupied": 0.9995256488446161,
+                "f1_occupied": 0.9807506898500615,
+                "confusion_matrix": [
+                  [
+                    7992,
+                    572
+                  ],
+                  [
+                    7,
+                    14750
+                  ]
+                ],
+                "samples": 23321
+              },
+              "UFPR04": {
+                "accuracy": 0.996769456681351,
+                "precision_occupied": 0.9872530274059911,
+                "recall_occupied": 0.9987105093488072,
+                "f1_occupied": 0.992948717948718,
+                "confusion_matrix": [
+                  [
+                    5239,
+                    20
+                  ],
+                  [
+                    2,
+                    1549
+                  ]
+                ],
+                "samples": 6810
+              },
+              "UFPR05": {
+                "accuracy": 0.995922443205459,
+                "precision_occupied": 0.9830917874396136,
+                "recall_occupied": 0.9931673987310884,
+                "f1_occupied": 0.9881039087157077,
+                "confusion_matrix": [
+                  [
+                    9933,
+                    35
+                  ],
+                  [
+                    14,
+                    2035
+                  ]
+                ],
+                "samples": 12017
+              }
+            },
+            "selection": {
+              "macro_site_f1_occupied": 0.9872677721714957,
+              "minimum_site_recall_occupied": 0.9931673987310884,
+              "overall_f1_occupied": 0.9825821319470498,
+              "rank_tuple": [
+                0.9872677721714957,
+                0.9931673987310884,
+                0.9825821319470498
+              ]
+            }
+          },
+          "duration_seconds": 539.8717167080003
+        },
+        {
+          "epoch": 2,
+          "phase": "full_finetune",
+          "train_loss": 0.03192149302254052,
+          "validation": {
+            "overall": {
+              "accuracy": 0.9959191420707981,
+              "precision_occupied": 0.9912475012156249,
+              "recall_occupied": 0.9994552486789781,
+              "f1_occupied": 0.9953344545109315,
+              "confusion_matrix": [
+                [
+                  23629,
+                  162
+                ],
+                [
+                  10,
+                  18347
+                ]
+              ],
+              "samples": 42148,
+              "loss": 0.012856950323363826
+            },
+            "by_site": {
+              "PUC": {
+                "accuracy": 0.992924831696754,
+                "precision_occupied": 0.9894016635363563,
+                "recall_occupied": 0.9995256488446161,
+                "f1_occupied": 0.9944378897690881,
+                "confusion_matrix": [
+                  [
+                    8406,
+                    158
+                  ],
+                  [
+                    7,
+                    14750
+                  ]
+                ],
+                "samples": 23321
+              },
+              "UFPR04": {
+                "accuracy": 0.9994126284875183,
+                "precision_occupied": 0.997427652733119,
+                "recall_occupied": 1.0,
+                "f1_occupied": 0.9987121699935608,
+                "confusion_matrix": [
+                  [
+                    5255,
+                    4
+                  ],
+                  [
+                    0,
+                    1551
+                  ]
+                ],
+                "samples": 6810
+              },
+              "UFPR05": {
+                "accuracy": 0.9997503536656404,
+                "precision_occupied": 1.0,
+                "recall_occupied": 0.9985358711566618,
+                "f1_occupied": 0.9992673992673992,
+                "confusion_matrix": [
+                  [
+                    9968,
+                    0
+                  ],
+                  [
+                    3,
+                    2046
+                  ]
+                ],
+                "samples": 12017
+              }
+            },
+            "selection": {
+              "macro_site_f1_occupied": 0.9974724863433494,
+              "minimum_site_recall_occupied": 0.9985358711566618,
+              "overall_f1_occupied": 0.9953344545109315,
+              "rank_tuple": [
+                0.9974724863433494,
+                0.9985358711566618,
+                0.9953344545109315
+              ]
+            }
+          },
+          "duration_seconds": 1492.0582193329997
+        },
+        {
+          "epoch": 3,
+          "phase": "full_finetune",
+          "train_loss": 0.005564321695427515,
+          "validation": {
+            "overall": {
+              "accuracy": 0.9989086077631204,
+              "precision_occupied": 0.9980958598552854,
+              "recall_occupied": 0.9994007735468758,
+              "f1_occupied": 0.9987478904676356,
+              "confusion_matrix": [
+                [
+                  23756,
+                  35
+                ],
+                [
+                  11,
+                  18346
+                ]
+              ],
+              "samples": 42148,
+              "loss": 0.004687221450751833
+            },
+            "by_site": {
+              "PUC": {
+                "accuracy": 0.9982419278761631,
+                "precision_occupied": 0.9977002164502164,
+                "recall_occupied": 0.9995256488446161,
+                "f1_occupied": 0.9986120984394571,
+                "confusion_matrix": [
+                  [
+                    8530,
+                    34
+                  ],
+                  [
+                    7,
+                    14750
+                  ]
+                ],
+                "samples": 23321
+              },
+              "UFPR04": {
+                "accuracy": 0.9998531571218796,
+                "precision_occupied": 0.9993556701030928,
+                "recall_occupied": 1.0,
+                "f1_occupied": 0.999677731227844,
+                "confusion_matrix": [
+                  [
+                    5258,
+                    1
+                  ],
+                  [
+                    0,
+                    1551
+                  ]
+                ],
+                "samples": 6810
+              },
+              "UFPR05": {
+                "accuracy": 0.9996671382208538,
+                "precision_occupied": 1.0,
+                "recall_occupied": 0.9980478282088824,
+                "f1_occupied": 0.9990229604298974,
+                "confusion_matrix": [
+                  [
+                    9968,
+                    0
+                  ],
+                  [
+                    4,
+                    2045
+                  ]
+                ],
+                "samples": 12017
+              }
+            },
+            "selection": {
+              "macro_site_f1_occupied": 0.9991042633657328,
+              "minimum_site_recall_occupied": 0.9980478282088824,
+              "overall_f1_occupied": 0.9987478904676356,
+              "rank_tuple": [
+                0.9991042633657328,
+                0.9980478282088824,
+                0.9987478904676356
+              ]
+            }
+          },
+          "duration_seconds": 1503.880900833
+        }
+      ],
+      "best_epoch": 3,
+      "best_validation": {
+        "overall": {
+          "accuracy": 0.9989086077631204,
+          "precision_occupied": 0.9980958598552854,
+          "recall_occupied": 0.9994007735468758,
+          "f1_occupied": 0.9987478904676356,
+          "confusion_matrix": [
+            [
+              23756,
+              35
+            ],
+            [
+              11,
+              18346
+            ]
+          ],
+          "samples": 42148,
+          "loss": 0.004687221450751833
+        },
+        "by_site": {
+          "PUC": {
+            "accuracy": 0.9982419278761631,
+            "precision_occupied": 0.9977002164502164,
+            "recall_occupied": 0.9995256488446161,
+            "f1_occupied": 0.9986120984394571,
+            "confusion_matrix": [
+              [
+                8530,
+                34
+              ],
+              [
+                7,
+                14750
+              ]
+            ],
+            "samples": 23321
+          },
+          "UFPR04": {
+            "accuracy": 0.9998531571218796,
+            "precision_occupied": 0.9993556701030928,
+            "recall_occupied": 1.0,
+            "f1_occupied": 0.999677731227844,
+            "confusion_matrix": [
+              [
+                5258,
+                1
+              ],
+              [
+                0,
+                1551
+              ]
+            ],
+            "samples": 6810
+          },
+          "UFPR05": {
+            "accuracy": 0.9996671382208538,
+            "precision_occupied": 1.0,
+            "recall_occupied": 0.9980478282088824,
+            "f1_occupied": 0.9990229604298974,
+            "confusion_matrix": [
+              [
+                9968,
+                0
+              ],
+              [
+                4,
+                2045
+              ]
+            ],
+            "samples": 12017
+          }
+        },
+        "selection": {
+          "macro_site_f1_occupied": 0.9991042633657328,
+          "minimum_site_recall_occupied": 0.9980478282088824,
+          "overall_f1_occupied": 0.9987478904676356,
+          "rank_tuple": [
+            0.9991042633657328,
+            0.9980478282088824,
+            0.9987478904676356
+          ]
+        }
+      },
+      "validation_rank": [
+        0.9991042633657328,
+        0.9980478282088824,
+        0.9987478904676356
+      ],
+      "checkpoint": "v2b_balanced_efficientnet_b0.pt",
+      "checkpoint_sha256": "d3baa8374b012954aa24892bd53313a6d0735cc87b4ae3d4d8bd6ce688650185",
+      "duration_seconds": 3536.1883545419996
+    }
+  ],
+  "completed_at_utc": "2026-08-24T11:01:25.930632+00:00",
+  "selection_lock": "V2_SELECTED_CHECKPOINT.json",
+  "selection_lock_sha256": "60743fb7594e05cd7c2726a2a1029853f99473cfe20179e15cae1c78ee084e9e",
+  "selected_candidate": "v2a_balanced_resnet18",
+  "selected_checkpoint": "models/v2a_balanced_resnet18.pt",
+  "selected_checkpoint_sha256": "97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9",
+  "total_duration_seconds": 5621.118086209,
+  "versions": {
+    "torch": "2.8.0",
+    "torchvision": "0.23.0",
+    "numpy": "2.0.2"
+  }
+}

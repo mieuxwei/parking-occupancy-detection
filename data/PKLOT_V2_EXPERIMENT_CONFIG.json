@@ -1,0 +1,147 @@
+{
+  "status": "precommitted_no_training",
+  "protocol_id": "pklot-v2-robustness-v1",
+  "precommitted_at_utc": "2026-08-24T09:17:54.558490+00:00",
+  "objective": "Improve the documented UFPR04 occupied recall and false-negative weakness without sacrificing overall discrimination.",
+  "v1_baseline": {
+    "checkpoint": "models/resnet18_pklot_finetuned.pt",
+    "checkpoint_sha256": "e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce",
+    "threshold": 0.5,
+    "weights_frozen": true,
+    "completed_results_immutable": true
+  },
+  "data": {
+    "source_manifest": "data/processed/pklot_adaptation_manifest.csv.gz",
+    "source_manifest_sha256": "c0965e66278f78290bd0d830db6dabc560b097cefd82de5d6c2c983bde1ab280",
+    "v2_manifest": "data/processed/pklot_v2_protocol_manifest.csv.gz",
+    "v2_manifest_sha256": "4aa2e976d67983b44708d304343ed6c72d7f054f294106ebf3b14e93dd00c5d7",
+    "date_assignments": "data/PKLOT_V2_DATE_SPLIT.csv",
+    "date_assignments_sha256": "2521a59fff936428360318c67d2727729b4bf2167f2efbfeedb41948f66f84b6",
+    "train_split": "v2_train",
+    "validation_split": "v2_validation",
+    "fresh_final_split": "v2_fresh_final_evaluation",
+    "unused_split": "unused_reserve",
+    "train_samples": 78376,
+    "validation_samples": 42148,
+    "fresh_final_samples": 154669,
+    "group_key": [
+      "site",
+      "capture_date"
+    ],
+    "physical_image_copies": false
+  },
+  "forbidden_inputs": [
+    "data/processed/pklot_error_manifest.csv.gz",
+    "results/error_analysis.json",
+    "images/pklot_error_representatives.jpg",
+    "images/pklot_false_negative_worst_cases.jpg",
+    "images/pklot_false_positive_worst_cases.jpg"
+  ],
+  "sampling": {
+    "method": "WeightedRandomSampler",
+    "balance_unit": [
+      "site",
+      "occupancy"
+    ],
+    "sample_weight": "inverse frequency of the sample's (site, occupancy) cell within v2_train",
+    "replacement": true,
+    "samples_per_epoch": 78376,
+    "validation_and_final_sampling": "natural distribution, deterministic sequential order",
+    "class_weights_in_loss": null
+  },
+  "preprocessing": {
+    "input_size": 224,
+    "padding": "symmetric edge padding to square",
+    "resize_interpolation": "bilinear antialias",
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "augmentation": {
+    "random_horizontal_flip_probability": 0.5,
+    "random_rotation_degrees": 7,
+    "color_jitter": {
+      "brightness": 0.2,
+      "contrast": 0.2,
+      "saturation": 0.1,
+      "hue": 0.02
+    },
+    "random_crop": false,
+    "vertical_flip": false,
+    "rationale": "Mild photometric and orientation variation without cropping away occupancy evidence or applying implausible vertical geometry."
+  },
+  "common_training": {
+    "optimizer": "AdamW",
+    "loss": "CrossEntropyLoss",
+    "weight_decay": 0.0001,
+    "train_batch_size": 32,
+    "eval_batch_size": 128,
+    "workers": 2,
+    "seed": 105,
+    "selection_primary": "macro average of occupied F1 across PUC, UFPR04, and UFPR05 on v2_validation",
+    "selection_tiebreak_1": "minimum site occupied recall on v2_validation",
+    "selection_tiebreak_2": "overall occupied F1 on v2_validation",
+    "fresh_final_used_for_selection": false
+  },
+  "candidates": [
+    {
+      "id": "v2a_balanced_resnet18",
+      "architecture": "ResNet18",
+      "initialization": "locked V1 PKLot fine-tuned checkpoint",
+      "full_finetune_epochs": 2,
+      "backbone_learning_rate": 0.000005,
+      "classifier_learning_rate": 0.00002,
+      "head_only_epochs": 0
+    },
+    {
+      "id": "v2b_balanced_efficientnet_b0",
+      "architecture": "EfficientNet-B0",
+      "initialization": "torchvision ImageNet-1K V1 weights",
+      "head_only_epochs": 1,
+      "head_learning_rate": 0.0001,
+      "full_finetune_epochs": 2,
+      "backbone_learning_rate": 0.00001,
+      "classifier_learning_rate": 0.00005,
+      "controlled_difference": "architecture and its required initialization only; split, sampler, augmentation, loss, batch sizes, seed, and validation selection rule remain fixed"
+    }
+  ],
+  "candidate_lock_rule": "Choose exactly one V2 candidate using only the precommitted validation ranking after both planned candidates finish. Record its checkpoint SHA-256 before any fresh-final inference.",
+  "fresh_final_evaluation": {
+    "open_condition": "Both candidates complete, one candidate selected using validation only, and its checkpoint/config hashes are recorded.",
+    "models": [
+      "locked V1 baseline",
+      "locked selected V2"
+    ],
+    "same_samples_and_order": true,
+    "threshold": 0.5,
+    "model_selection_or_recalibration_after_opening": false,
+    "metrics": [
+      "accuracy",
+      "precision_occupied",
+      "recall_occupied",
+      "f1_occupied",
+      "confusion_matrix",
+      "per_site_metrics",
+      "per_weather_metrics"
+    ],
+    "success_gate": {
+      "ufpr04_recall_occupied_minimum_absolute_gain": 0.02,
+      "overall_f1_occupied_maximum_absolute_decline": 0.005,
+      "interpretation": "Report pass or fail after the one-time comparison; do not use the gate to choose or revise a model."
+    }
+  },
+  "boundaries": {
+    "cnr_ext_test_reopened": false,
+    "existing_pklot_heldout_results_overwritten": false,
+    "existing_error_analysis_reinterpreted": false,
+    "streamlit_demo_changed": false,
+    "portfolio_finalization_started": false
+  }
+}

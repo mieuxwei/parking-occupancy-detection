@@ -1,0 +1,192 @@
+{
+  "status": "v1_frozen_read_only",
+  "generated_at_utc": "2026-08-24T09:13:03.130588+00:00",
+  "policy": {
+    "overwrite_existing_v1_artifacts": false,
+    "reinterpret_completed_v1_metrics": false,
+    "use_v1_error_manifest_for_v2_training_or_selection": false,
+    "streamlit_v1_changed_for_v2_protocol": false
+  },
+  "artifacts": [
+    {
+      "path": "models/simple_cnn_baseline.pt",
+      "type": "checkpoint",
+      "size_bytes": 406393,
+      "sha256": "82ade7ce2c19bdd20415787ffa42340a85d61b23a61269ed75189b6bf1c1fb1c"
+    },
+    {
+      "path": "models/resnet18_transfer.pt",
+      "type": "checkpoint",
+      "size_bytes": 44790475,
+      "sha256": "0b8a9e51bfdef525410781c4d57813ef3a12bee508ab9843e0ba9d393bd78b60"
+    },
+    {
+      "path": "models/resnet18_pklot_finetuned.pt",
+      "type": "checkpoint",
+      "size_bytes": 44791307,
+      "sha256": "e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce"
+    },
+    {
+      "path": "results/simple_cnn_baseline.json",
+      "type": "result",
+      "size_bytes": 4241,
+      "sha256": "2a3d34b7d349f00c70f3d8c4f9490773c199525361d61d0170b534e95e8055c5"
+    },
+    {
+      "path": "results/resnet18_transfer.json",
+      "type": "result",
+      "size_bytes": 3403,
+      "sha256": "8971d3b30e6db8c69194da175fedc4fcf3221e378c72ffe0975eb79422896fd4"
+    },
+    {
+      "path": "results/cross_domain_evaluation.json",
+      "type": "result",
+      "size_bytes": 5237,
+      "sha256": "970eba7b3e1f0cf4cf8abca7edcc38d66427fc0c33566b8990ebccd0822e0033"
+    },
+    {
+      "path": "results/pklot_finetuning.json",
+      "type": "result",
+      "size_bytes": 11787,
+      "sha256": "ce6b5c7c41852f9a581b2aa3ee066a6c3c7ef07416e255bad468aff8e2a1d812"
+    },
+    {
+      "path": "results/error_analysis.json",
+      "type": "result",
+      "size_bytes": 64698,
+      "sha256": "3c38c537b767f6c84460d8f070b598923ac147280914e0524746eb19d7849189"
+    },
+    {
+      "path": "data/processed/pklot_adaptation_manifest.csv.gz",
+      "type": "local_manifest",
+      "size_bytes": 5743553,
+      "sha256": "c0965e66278f78290bd0d830db6dabc560b097cefd82de5d6c2c983bde1ab280"
+    },
+    {
+      "path": "data/processed/pklot_error_manifest.csv.gz",
+      "type": "local_manifest",
+      "size_bytes": 270235,
+      "sha256": "c3ae7d4c7652a0fc4e393ec39431295eb619f6459d4d4f3d6f8631d096d97afe"
+    },
+    {
+      "path": "docs/DATASET_RESEARCH.md",
+      "type": "documentation",
+      "size_bytes": 7474,
+      "sha256": "cb9321db6c77050696fc79c5cd0b70b2b83fa75516e1ea3b0fbe588af48264e1"
+    },
+    {
+      "path": "docs/DATA_SPLIT.md",
+      "type": "documentation",
+      "size_bytes": 4670,
+      "sha256": "bf803a4524b473776dec2bbe0e21a7e5de7626b89477c36d2af8311177278caf"
+    },
+    {
+      "path": "docs/DATA_STORAGE.md",
+      "type": "documentation",
+      "size_bytes": 4398,
+      "sha256": "25b33f51366fb73a5079661f10471588e8d4f0a485f53f13744260d8f5c8a68d"
+    },
+    {
+      "path": "docs/EDA_REPORT.md",
+      "type": "documentation",
+      "size_bytes": 4655,
+      "sha256": "d087955923df5364643de4fb86e8dc1454ebdfcadf3dd00f8e381964e58746c1"
+    },
+    {
+      "path": "docs/SIMPLE_CNN_BASELINE.md",
+      "type": "documentation",
+      "size_bytes": 3083,
+      "sha256": "e811cc3cc7e2c00f3251abdadfdcb181ffc825c6c5dbf835e332be61e1940e17"
+    },
+    {
+      "path": "docs/RESNET18_TRANSFER.md",
+      "type": "documentation",
+      "size_bytes": 3935,
+      "sha256": "0c5a609a1383b813deac7272b19babe0502958268cd36863d7c9f43c29513e89"
+    },
+    {
+      "path": "docs/PKLOT_PREPARATION.md",
+      "type": "documentation",
+      "size_bytes": 3637,
+      "sha256": "7a3160938977fd75f5cac630e95e9724dc482e1bc84d12aefa4614b59990d517"
+    },
+    {
+      "path": "docs/CROSS_DOMAIN_EVALUATION.md",
+      "type": "documentation",
+      "size_bytes": 4114,
+      "sha256": "f5c1db4acd8d7ac78d77713fc3daedab549745c3f3128774de36b12e1e3d0e46"
+    },
+    {
+      "path": "docs/PKLOT_ADAPTATION_SPLIT.md",
+      "type": "documentation",
+      "size_bytes": 2696,
+      "sha256": "ca2ac6b596eabf3ad30649bca4ae225ea30358952e1b543d382f3bb580df5064"
+    },
+    {
+      "path": "docs/PKLOT_FINETUNING.md",
+      "type": "documentation",
+      "size_bytes": 5236,
+      "sha256": "3d22bf8c8e4a1be92a45efa2fe13d95e971bc0b3902afda7936fc842f4f27f56"
+    },
+    {
+      "path": "docs/ERROR_ANALYSIS.md",
+      "type": "documentation",
+      "size_bytes": 5368,
+      "sha256": "962bcdd76e6629b62d172337224f544fbc94d65c16053b3f049d4d8efa9f0595"
+    },
+    {
+      "path": "docs/DEMO.md",
+      "type": "documentation",
+      "size_bytes": 2871,
+      "sha256": "8584185ddfedc745957e61c13d87d4a574d648802919b4e8e6609e1f332715c3"
+    },
+    {
+      "path": "app/app.py",
+      "type": "demo_application",
+      "size_bytes": 3113,
+      "sha256": "41c58f490b081ad0ab58d55f38f51ddd6edab3c38415b8ee7a1835ca8e85acb3"
+    },
+    {
+      "path": "src/inference.py",
+      "type": "demo_application",
+      "size_bytes": 4689,
+      "sha256": "d87c76b210cef219a72f2c1859a4f80c9d7237caa816dc60908db6add5aea18f"
+    },
+    {
+      "path": ".streamlit/config.toml",
+      "type": "demo_application",
+      "size_bytes": 64,
+      "sha256": "a4b27bce6c3d2cb3ec4898f2f623e3045a74cd5a2e7ca712b08df6f94a4a6613"
+    },
+    {
+      "path": "requirements.txt",
+      "type": "demo_application",
+      "size_bytes": 94,
+      "sha256": "4e7d87526f4dbd7c73fafeebf4eeb41d2ca37aa8bc6c666a27c0d8056f90d79b"
+    },
+    {
+      "path": "images/demo_initial.png",
+      "type": "demo_artifact",
+      "size_bytes": 37057,
+      "sha256": "c3acd6ac15c57a2c780f52d4db784788fd004c1570c9fef251912c08a03500d8"
+    },
+    {
+      "path": "images/demo_inference_result.png",
+      "type": "demo_artifact",
+      "size_bytes": 24745,
+      "sha256": "818536a8679812f4e3d9d21748adb84bb93a6091a9a8d300b84db161a1df5faa"
+    },
+    {
+      "path": "images/demo_sample_occupied.jpg",
+      "type": "demo_artifact",
+      "size_bytes": 6257,
+      "sha256": "30dd56ef48caa016324e05af34744d7c0f1cb95b9e9771578f49f6f35cbf63f7"
+    },
+    {
+      "path": "images/parking_occupancy_demo.gif",
+      "type": "demo_artifact",
+      "size_bytes": 130888,
+      "sha256": "31b2d166088c69f90f6d4ef8bd42ba07f897f7afe42cc4180d30810285357ce2"
+    }
+  ]
+}

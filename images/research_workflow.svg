@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">Research architecture and workflow</title>
+<desc id="desc">Diagram traces external data through portable manifests, leakage audits, source and target experiments, locked selection, final comparison, and V2-A demo.</desc>
+<rect x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<text x="80" y="80" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="42" font-weight="500" fill="#172033" text-anchor="start">Leakage-aware cross-domain research workflow</text>
+<text x="80" y="120" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="22" font-weight="400" fill="#566176" text-anchor="start">Data stays external; manifests, protocol locks, code, and reports stay reproducible in Git</text>
+<rect x="90" y="190" width="310" height="105" rx="14" fill="#F5F7FB" stroke="#2563EB" stroke-width="3"/>
+<text x="112" y="228" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#2563EB" text-anchor="start">External SSD</text>
+<text x="112" y="263" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">CNRPark+EXT + PKLot images</text>
+<rect x="485" y="190" width="310" height="105" rx="14" fill="#F5F7FB" stroke="#2563EB" stroke-width="3"/>
+<text x="507" y="228" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#2563EB" text-anchor="start">Portable manifests</text>
+<text x="507" y="263" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">relative paths + group metadata</text>
+<rect x="880" y="190" width="310" height="105" rx="14" fill="#F5F7FB" stroke="#2563EB" stroke-width="3"/>
+<text x="902" y="228" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#2563EB" text-anchor="start">Leakage audits</text>
+<text x="902" y="263" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">date / frame / site boundaries</text>
+<rect x="1275" y="190" width="235" height="105" rx="14" fill="#F5F7FB" stroke="#2563EB" stroke-width="3"/>
+<text x="1297" y="228" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#2563EB" text-anchor="start">Protocol locks</text>
+<text x="1297" y="263" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">splits + hashes</text>
+<rect x="90" y="410" width="310" height="120" rx="14" fill="#F5F7FB" stroke="#7656C8" stroke-width="3"/>
+<text x="112" y="448" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#7656C8" text-anchor="start">Source-domain track</text>
+<text x="112" y="483" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">SimpleCNN → ResNet18</text>
+<text x="112" y="511" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">CNR-EXT one-time test</text>
+<rect x="485" y="410" width="310" height="120" rx="14" fill="#F5F7FB" stroke="#E8792E" stroke-width="3"/>
+<text x="507" y="448" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#E8792E" text-anchor="start">Domain-shift test</text>
+<text x="507" y="483" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">Frozen ResNet18 → PKLot</text>
+<text x="507" y="511" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">zero-shot evaluation</text>
+<rect x="880" y="410" width="310" height="120" rx="14" fill="#F5F7FB" stroke="#E8792E" stroke-width="3"/>
+<text x="902" y="448" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#E8792E" text-anchor="start">Target adaptation V1</text>
+<text x="902" y="483" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">PKLot fine-tuning</text>
+<text x="902" y="511" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">held-out error analysis</text>
+<rect x="1275" y="410" width="235" height="120" rx="14" fill="#F5F7FB" stroke="#0F9D8A" stroke-width="3"/>
+<text x="1297" y="448" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#0F9D8A" text-anchor="start">Robustness V2</text>
+<text x="1297" y="483" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">balanced sampling</text>
+<text x="1297" y="511" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">ResNet18 vs EfficientNet</text>
+<rect x="485" y="660" width="310" height="115" rx="14" fill="#F5F7FB" stroke="#0F9D8A" stroke-width="3"/>
+<text x="507" y="698" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#0F9D8A" text-anchor="start">Validation-only selection</text>
+<text x="507" y="733" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">V2-A ResNet18 locked</text>
+<rect x="880" y="660" width="310" height="115" rx="14" fill="#F5F7FB" stroke="#0F9D8A" stroke-width="3"/>
+<text x="902" y="698" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#0F9D8A" text-anchor="start">Fresh-final comparison</text>
+<text x="902" y="733" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">V1 vs V2-A once</text>
+<text x="902" y="761" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">154,669 samples</text>
+<rect x="1275" y="660" width="235" height="115" rx="14" fill="#F5F7FB" stroke="#0F9D8A" stroke-width="3"/>
+<text x="1297" y="698" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="23" font-weight="500" fill="#0F9D8A" text-anchor="start">Production demo</text>
+<text x="1297" y="733" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">V2-A · threshold 0.5</text>
+<line x1="400" y1="242" x2="485" y2="242" stroke="#566176" stroke-width="3"/>
+<circle cx="485" cy="242" r="5" fill="#566176"/>
+<line x1="795" y1="242" x2="880" y2="242" stroke="#566176" stroke-width="3"/>
+<circle cx="880" cy="242" r="5" fill="#566176"/>
+<line x1="1190" y1="242" x2="1275" y2="242" stroke="#566176" stroke-width="3"/>
+<circle cx="1275" cy="242" r="5" fill="#566176"/>
+<line x1="245" y1="295" x2="245" y2="410" stroke="#566176" stroke-width="3"/>
+<circle cx="245" cy="410" r="5" fill="#566176"/>
+<line x1="640" y1="295" x2="640" y2="410" stroke="#566176" stroke-width="3"/>
+<circle cx="640" cy="410" r="5" fill="#566176"/>
+<line x1="1035" y1="295" x2="1035" y2="410" stroke="#566176" stroke-width="3"/>
+<circle cx="1035" cy="410" r="5" fill="#566176"/>
+<line x1="1392" y1="295" x2="1392" y2="410" stroke="#566176" stroke-width="3"/>
+<circle cx="1392" cy="410" r="5" fill="#566176"/>
+<line x1="400" y1="470" x2="485" y2="470" stroke="#566176" stroke-width="3"/>
+<circle cx="485" cy="470" r="5" fill="#566176"/>
+<line x1="795" y1="470" x2="880" y2="470" stroke="#566176" stroke-width="3"/>
+<circle cx="880" cy="470" r="5" fill="#566176"/>
+<line x1="1190" y1="470" x2="1275" y2="470" stroke="#566176" stroke-width="3"/>
+<circle cx="1275" cy="470" r="5" fill="#566176"/>
+<line x1="1392" y1="530" x2="1392" y2="590" stroke="#566176" stroke-width="3"/>
+<circle cx="1392" cy="590" r="5" fill="#566176"/>
+<line x1="1392" y1="590" x2="640" y2="590" stroke="#566176" stroke-width="3"/>
+<circle cx="640" cy="590" r="5" fill="#566176"/>
+<line x1="640" y1="590" x2="640" y2="660" stroke="#566176" stroke-width="3"/>
+<circle cx="640" cy="660" r="5" fill="#566176"/>
+<line x1="795" y1="718" x2="880" y2="718" stroke="#566176" stroke-width="3"/>
+<circle cx="880" cy="718" r="5" fill="#566176"/>
+<line x1="1190" y1="718" x2="1275" y2="718" stroke="#566176" stroke-width="3"/>
+<circle cx="1275" cy="718" r="5" fill="#566176"/>
+<text x="90" y="845" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif" font-size="18" font-weight="400" fill="#566176" text-anchor="start">Immutable evaluation boundaries</text>
+<line x1="400" y1="839" x2="560" y2="839" stroke="#566176" stroke-width="3"/>
+</svg>
