@@ -1,0 +1,185 @@
+{
+  "completed_at_utc": "2026-08-21T14:44:43.746709+00:00",
+  "config": {
+    "architecture": "SimpleCNN",
+    "protocol": "date",
+    "subset": "CNR-EXT",
+    "train_split": "train",
+    "validation_split": "validation",
+    "test_split_used": false,
+    "epochs_requested": 5,
+    "batch_size": 64,
+    "input_size": 128,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "loss": "CrossEntropyLoss",
+    "class_weights": null,
+    "dropout": 0.3,
+    "early_stopping_patience": 2,
+    "seed": 42,
+    "workers": 2,
+    "device": "mps",
+    "train_samples": 106833,
+    "validation_samples": 18938,
+    "parameter_count": 98178,
+    "normalization_mean": [
+      0.412173,
+      0.402667,
+      0.353757
+    ],
+    "normalization_std": [
+      0.175863,
+      0.171592,
+      0.179682
+    ],
+    "augmentation": {
+      "horizontal_flip_probability": 0.5,
+      "rotation_degrees": 5,
+      "brightness": 0.15,
+      "contrast": 0.15
+    }
+  },
+  "epochs_completed": 5,
+  "best_epoch": 3,
+  "best_validation": {
+    "accuracy": 0.9808849931354948,
+    "precision_occupied": 0.9869541778975741,
+    "recall_occupied": 0.9743480574773816,
+    "f1_occupied": 0.9806106052490626,
+    "confusion_matrix": [
+      [
+        9422,
+        121
+      ],
+      [
+        241,
+        9154
+      ]
+    ],
+    "samples": 18938,
+    "loss": 0.055418826303868615
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.1175976597182326,
+      "validation": {
+        "accuracy": 0.9699545886577252,
+        "precision_occupied": 0.9870860927152317,
+        "recall_occupied": 0.9518893028206493,
+        "f1_occupied": 0.9691682470875101,
+        "confusion_matrix": [
+          [
+            9426,
+            117
+          ],
+          [
+            452,
+            8943
+          ]
+        ],
+        "samples": 18938,
+        "loss": 0.07960138349312011
+      },
+      "duration_seconds": 102.404318167
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.07276545422946011,
+      "validation": {
+        "accuracy": 0.9744957228852044,
+        "precision_occupied": 0.9734381640458989,
+        "recall_occupied": 0.9751995742416179,
+        "f1_occupied": 0.9743180730579041,
+        "confusion_matrix": [
+          [
+            9293,
+            250
+          ],
+          [
+            233,
+            9162
+          ]
+        ],
+        "samples": 18938,
+        "loss": 0.06841349507782249
+      },
+      "duration_seconds": 101.684073708
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.06184167654859578,
+      "validation": {
+        "accuracy": 0.9808849931354948,
+        "precision_occupied": 0.9869541778975741,
+        "recall_occupied": 0.9743480574773816,
+        "f1_occupied": 0.9806106052490626,
+        "confusion_matrix": [
+          [
+            9422,
+            121
+          ],
+          [
+            241,
+            9154
+          ]
+        ],
+        "samples": 18938,
+        "loss": 0.055418826303868615
+      },
+      "duration_seconds": 119.111834416
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.05343999415386392,
+      "validation": {
+        "accuracy": 0.9750765656352307,
+        "precision_occupied": 0.988075702877147,
+        "recall_occupied": 0.9613624268227781,
+        "f1_occupied": 0.9745360379801468,
+        "confusion_matrix": [
+          [
+            9434,
+            109
+          ],
+          [
+            363,
+            9032
+          ]
+        ],
+        "samples": 18938,
+        "loss": 0.06429022531015177
+      },
+      "duration_seconds": 124.19037837500002
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.04927794648546334,
+      "validation": {
+        "accuracy": 0.9772415249762383,
+        "precision_occupied": 0.9918788410886743,
+        "recall_occupied": 0.9620010643959553,
+        "f1_occupied": 0.9767115145620576,
+        "confusion_matrix": [
+          [
+            9469,
+            74
+          ],
+          [
+            357,
+            9038
+          ]
+        ],
+        "samples": 18938,
+        "loss": 0.05684799276995709
+      },
+      "duration_seconds": 118.43056599999994
+    }
+  ],
+  "total_duration_seconds": 565.848427959,
+  "versions": {
+    "torch": "2.8.0",
+    "numpy": "2.0.2"
+  }
+}
