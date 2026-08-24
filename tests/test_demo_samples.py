@@ -12,6 +12,11 @@ SAMPLE_MANIFEST = REPOSITORY_ROOT / "app/demo_samples.json"
 class DemoSampleTests(unittest.TestCase):
     def test_demo_samples_are_small_purpose_created_non_evaluation_assets(self) -> None:
         samples = json.loads(SAMPLE_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual(len(samples), 10)
+        self.assertEqual(
+            {label: sum(sample["known_label"] == label for sample in samples) for label in ("EMPTY", "OCCUPIED")},
+            {"EMPTY": 5, "OCCUPIED": 5},
+        )
         self.assertEqual({sample["known_label"] for sample in samples}, {"EMPTY", "OCCUPIED"})
         self.assertEqual(len({sample["id"] for sample in samples}), len(samples))
 

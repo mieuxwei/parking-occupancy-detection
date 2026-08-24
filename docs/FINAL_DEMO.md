@@ -33,8 +33,8 @@ portfolio metrics; no evaluation is executed.
 The interactive classifier appears before the research metrics and offers two
 paths:
 
-- **Try a Sample:** immediately runs one of two lightweight, purpose-created
-  EMPTY/OCCUPIED scenes. Random Sample and Try another switch between them.
+- **Try a Sample:** immediately runs one of ten lightweight, purpose-created
+  EMPTY/OCCUPIED scenes. **Try another sample** advances through the gallery.
 - **Upload Your Own:** preserves the original JPEG/PNG/WebP single-crop upload
   workflow and 10 MB protection.
 

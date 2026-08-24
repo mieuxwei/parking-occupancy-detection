@@ -16,5 +16,77 @@
     "source": "Purpose-created with OpenAI built-in image generation",
     "created_on": "2026-08-25",
     "evaluation_evidence": false
+  },
+  {
+    "id": "sample_c",
+    "title": "Sample C",
+    "image": "images/demo_samples/empty-rain-purpose-created.jpg",
+    "known_label": "EMPTY",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_d",
+    "title": "Sample D",
+    "image": "images/demo_samples/occupied-suv-purpose-created.jpg",
+    "known_label": "OCCUPIED",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_e",
+    "title": "Sample E",
+    "image": "images/demo_samples/empty-garage-purpose-created.jpg",
+    "known_label": "EMPTY",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_f",
+    "title": "Sample F",
+    "image": "images/demo_samples/occupied-garage-purpose-created.jpg",
+    "known_label": "OCCUPIED",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_g",
+    "title": "Sample G",
+    "image": "images/demo_samples/empty-sunny-purpose-created.jpg",
+    "known_label": "EMPTY",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_h",
+    "title": "Sample H",
+    "image": "images/demo_samples/occupied-sunny-purpose-created.jpg",
+    "known_label": "OCCUPIED",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_i",
+    "title": "Sample I",
+    "image": "images/demo_samples/empty-overcast-purpose-created.jpg",
+    "known_label": "EMPTY",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_j",
+    "title": "Sample J",
+    "image": "images/demo_samples/occupied-rain-purpose-created.jpg",
+    "known_label": "OCCUPIED",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
   }
 ]

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import secrets
 import sys
 from pathlib import Path
 
@@ -124,15 +123,8 @@ with try_sample_tab:
         sample_ids = list(sample_by_id)
         if "demo_sample_id" not in st.session_state:
             st.session_state["demo_sample_id"] = sample_ids[0]
-        random_column, another_column, _ = st.columns([1, 1, 2])
-        if random_column.button("🎲 Random Sample", use_container_width=True):
-            alternatives = [
-                sample_id
-                for sample_id in sample_ids
-                if sample_id != st.session_state["demo_sample_id"]
-            ]
-            st.session_state["demo_sample_id"] = secrets.choice(alternatives or sample_ids)
-        if another_column.button("↻ Try another", use_container_width=True):
+        another_column, _ = st.columns([1, 3])
+        if another_column.button("↻ Try another sample", use_container_width=True):
             current = sample_ids.index(st.session_state["demo_sample_id"])
             st.session_state["demo_sample_id"] = sample_ids[(current + 1) % len(sample_ids)]
         selected_id = st.radio(
