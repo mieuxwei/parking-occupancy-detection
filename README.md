@@ -7,15 +7,37 @@ shift, target adaptation, error analysis, and precommitted robustness
 evaluation. 本專題以可重現、可稽核的方式研究單一停車格裁切影像的
 `EMPTY`／`OCCUPIED` 分類，以及模型跨停車場時的泛化與改善策略。
 
-| Final production model | Fresh-final samples | Accuracy | Occupied F1 | UFPR04 recall |
-|---|---:|---:|---:|---:|
-| **V2-A balanced ResNet18** | 154,669 | **0.998894** | **0.998912** | **1.000000** |
+## 🚀 Live Demo
+
+> **Deployment pending.** Public Streamlit URL: `STREAMLIT_LIVE_DEMO_URL_PENDING`
+
+The demo accepts one JPEG, PNG, or WebP crop and runs the locked V2-A model on
+CPU. **This demo expects a pre-cropped image of a single parking space.**
+
+## Final Results / 最終結果
+
+| Production model | Fresh-final samples | Accuracy | Occupied F1 | Occupied recall | FP | FN |
+|---|---:|---:|---:|---:|---:|---:|
+| **V2-A balanced ResNet18** | 154,669 | **99.8894%** | **99.8912%** | **99.9058%** | **97** | **74** |
+
+Fresh-final confusion matrix: `[[75989, 97], [74, 78509]]`.
 
 The final model was selected on `v2_validation` only and compared with immutable
 V1 exactly once on a disjoint fresh-final protocol. 最終模型未使用 fresh-final
 選模；threshold、前處理與 evaluation code 在開啟前已鎖定。
 
 ![V2-A Streamlit demo](images/v2_parking_occupancy_demo.gif)
+
+## Why This Project Is Technically Interesting / 技術重點
+
+- It measures a real source-to-target domain shift instead of reporting only an
+  in-domain score.
+- It uses grouped, leakage-aware splits and records exact configs, seeds,
+  manifests, hashes, and experiment boundaries.
+- It turns a documented UFPR04 false-negative weakness into a precommitted V2
+  robustness protocol without training on the analyzed error manifest.
+- It preserves failed and intermediate stages so the final score remains part
+  of an auditable research progression rather than an isolated claim.
 
 ## Project Overview / 專題概述
 
@@ -131,14 +153,14 @@ format. It keeps the original single-image layout and unchanged inference
 contract.
 
 ```bash
-python -m pip install -r requirements.txt
-export PARKING_MODEL_PATH="/absolute/path/to/v2a_balanced_resnet18.pt"
+python -m pip install -r app/requirements.txt
 streamlit run app/app.py
 ```
 
 If `PARKING_MODEL_PATH` is unset, the app uses
-`models/v2a_balanced_resnet18.pt`. It verifies the selected candidate,
-architecture, and locked experiment-config hash before loading.
+`models/v2a_balanced_resnet18.pt`. The public repository includes only this
+locked production checkpoint. The loader verifies its exact SHA-256, selected
+candidate, architecture, and experiment-config hash before loading.
 
 - Input: one cropped JPEG, PNG, or WebP image, up to 10 MB
 - Preprocessing: edge-pad → 224×224 bilinear resize → ImageNet normalization
@@ -162,7 +184,7 @@ export PARKING_DATA_ROOT="/absolute/path/to/external-ssd/parking-datasets"
 python -m src.data_paths
 ```
 
-No machine-specific `/Volumes/...` path is committed. No physical
+No machine-specific absolute storage path is committed. No physical
 train/validation/test image-copy folders are created.
 
 ## Reproducibility and Boundaries / 可重現性與邊界
@@ -174,7 +196,7 @@ train/validation/test image-copy folders are created.
 - V2 trained on `v2_train` only and selected on `v2_validation` only
 - Fresh final opened exactly once for two immutable ResNet18 checkpoints
 - No retraining, threshold calibration, candidate switching, or post-final update
-- 23 automated tests covering data paths, splits, metrics, models, inference, and gates
+- 25 automated tests covering data paths, splits, metrics, models, inference, and gates
 
 Selected checkpoint SHA-256:
 `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.
@@ -196,7 +218,7 @@ parking-occupancy-detection/
 ├── data/         # Portable metadata, manifests, locks, and small config
 ├── docs/         # Experiment reports and application materials
 ├── images/       # Charts, contact sheets, screenshots, GIF, and QR code
-├── models/       # Local ignored checkpoints
+├── models/       # Public V2-A production checkpoint; other checkpoints ignored
 ├── results/      # Exact experiment and evaluation JSON
 ├── src/          # Data, training, evaluation, inference, and asset tooling
 └── tests/        # Automated tests
@@ -204,13 +226,24 @@ parking-occupancy-detection/
 
 ## Portfolio Materials / 作品集文件
 
+- [Documentation index / 文件索引](docs/README.md)
 - [Final research summary / 最終研究摘要](docs/FINAL_RESEARCH_SUMMARY.md)
 - [Graduate-application abstract / 研究所備審摘要](docs/GRADUATE_APPLICATION_ABSTRACT.md)
 - [CV description and technical skills / 履歷描述與技術能力](docs/CV_PROJECT_DESCRIPTION.md)
 - [Complete model comparison / 完整模型比較](docs/MODEL_COMPARISON.md)
+- [Cross-domain evaluation / 跨場域評估](docs/CROSS_DOMAIN_EVALUATION.md)
+- [Error analysis / 錯誤分析](docs/ERROR_ANALYSIS.md)
 - [V2 training and selection](docs/V2_TRAINING_SELECTION.md)
 - [One-time fresh-final comparison](docs/V2_FRESH_FINAL_COMPARISON.md)
 - [Final demo guide](docs/FINAL_DEMO.md)
+- [Third-party dataset notices and attribution](THIRD_PARTY_NOTICES.md)
+
+## License / 授權
+
+Original project code and documentation are released under the
+[MIT License](LICENSE). Dataset-derived materials and third-party datasets remain
+subject to their respective terms described in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Limitations / 限制
 
@@ -219,7 +252,8 @@ parking-occupancy-detection/
 - Softmax confidence is uncalibrated.
 - Weather, site, and date are confounded; reported associations are not causal.
 - Fresh final is disjoint from V1 adaptation and V2 development, but PKLot images had historically received V1 inference before the V2 protocol.
-- Model weights and large datasets are intentionally excluded from Git.
+- Large datasets and non-production checkpoints are excluded from Git; the
+  exact selected V2-A checkpoint is included solely for reproducible inference.
 - The fresh-final result is closed and cannot support another model revision.
 
 ## Project Status / 專案狀態

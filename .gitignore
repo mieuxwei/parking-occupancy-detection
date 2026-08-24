@@ -217,6 +217,30 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# Local IDE and machine metadata
+.idea/
+.vscode/
+._*
+.AppleDouble/
+.LSOverride
+.Spotlight-V100/
+.Trashes/
+
+# Credentials and local configuration
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.toml
+
+# Internal development records retained locally, not published
+HANDOFF.md
+PROJECT_PLAN.md
+
+# Local dataset-derived crop used to record the demo; public GIF/screenshots remain
+images/demo_sample_occupied.jpg
+
 # Project-specific local files and artifacts
 .venv/
 __pycache__/
@@ -242,3 +266,13 @@ data/external/*
 models/*.pt
 models/*.pth
 models/*.ckpt
+
+# The one locked production artifact required by the public demo
+!models/v2a_balanced_resnet18.pt
+
+# Dataset archives and other large local bundles
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z

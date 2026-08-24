@@ -14,14 +14,19 @@ Milestone 10.5 選出的 V2-A ResNet18。
 - Decision: occupied softmax probability ≥ 0.5 → `OCCUPIED`; otherwise `EMPTY`
 - Upload handling: decoded in memory and not saved by the app
 
-The checkpoint path remains configurable through `PARKING_MODEL_PATH`, but the
-loader rejects checkpoints that do not identify the selected V2-A candidate.
-If unset, the repository-relative V2-A path is used.
+The public repository includes only the locked production checkpoint. The path
+remains configurable through `PARKING_MODEL_PATH`, but the loader verifies the
+exact SHA-256 and rejects every other checkpoint. If unset, the
+repository-relative V2-A path is used.
 
 ```bash
-export PARKING_MODEL_PATH="/absolute/path/to/v2a_balanced_resnet18.pt"
 streamlit run app/app.py
 ```
+
+The deployed app explicitly uses CPU inference. It does not require
+`PARKING_DATA_ROOT`, an external SSD, secrets, or any training/evaluation image.
+The small locked result JSON is read only to display the already-completed
+portfolio metrics; no evaluation is executed.
 
 ## Validation
 
@@ -42,6 +47,18 @@ add a metric. The earlier Milestone 10 V1 demo files remain preserved separately
 
 - The input must already be cropped to one parking space; no full-frame detection is implemented.
 - Confidence is an uncalibrated softmax score.
-- The model checkpoint is ignored by Git and must be supplied locally.
+- The public repository includes only the selected production checkpoint; all
+  other local checkpoints remain excluded.
 - The locked fresh-final result cannot be used for further calibration or model development.
 
+## Streamlit Community Cloud
+
+- Repository: public GitHub repository
+- Branch: `main`
+- Entrypoint: `app/app.py`
+- Python: 3.11
+- Dependencies: `app/requirements.txt`
+- Secrets: none
+
+After deployment, replace the clearly marked Live Demo placeholder in the root
+README with the assigned `https://…streamlit.app` URL.

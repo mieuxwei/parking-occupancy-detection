@@ -23,12 +23,14 @@ from src.prepare_pklot_adaptation_split import assign_date_groups
 from src.analyze_errors import make_error_row, rank_errors, representative_errors
 from src.inference import (
     decode_uploaded_image,
+    load_locked_final_summary,
     prediction_from_probabilities,
     resolve_checkpoint_path,
 )
 from src.prepare_v2_protocol import assign_v2_date_groups
 from src.v2_training import (
     balanced_site_label_sampler,
+    build_v2_transform,
     build_efficientnet_b0,
     validation_rank,
 )
@@ -230,11 +232,31 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(resolve_checkpoint_path(checkpoint, root), checkpoint.resolve())
             previous = os.environ.pop("PARKING_MODEL_PATH", None)
             try:
-                with self.assertRaisesRegex(FileNotFoundError, "PARKING_MODEL_PATH"):
+                with self.assertRaisesRegex(FileNotFoundError, "PARKING_MODEL_PATH") as error:
                     resolve_checkpoint_path(repository_root=root)
+                self.assertNotIn(str(root), str(error.exception))
             finally:
                 if previous is not None:
                     os.environ["PARKING_MODEL_PATH"] = previous
+
+    def test_demo_reads_locked_final_summary_without_evaluation(self) -> None:
+        summary = load_locked_final_summary(Path(__file__).resolve().parents[1])
+        self.assertEqual(summary["samples"], 154669)
+        self.assertAlmostEqual(summary["accuracy"], 0.9988944132308348)
+        self.assertAlmostEqual(summary["occupied_f1"], 0.9989121376177722)
+        self.assertEqual(summary["ufpr04_occupied_recall"], 1.0)
+
+    def test_demo_uses_locked_v2_inference_preprocessing(self) -> None:
+        operations = build_v2_transform(training=False, input_size=224).transforms
+        self.assertEqual(
+            [operation.__class__.__name__ for operation in operations],
+            ["PadToSquare", "Resize", "ToTensor", "Normalize"],
+        )
+        self.assertEqual(operations[1].size, (224, 224))
+        self.assertEqual(operations[1].interpolation.value, "bilinear")
+        self.assertTrue(operations[1].antialias)
+        self.assertEqual(tuple(operations[3].mean), (0.485, 0.456, 0.406))
+        self.assertEqual(tuple(operations[3].std), (0.229, 0.224, 0.225))
 
     def test_v2_protocol_is_deterministic_and_keeps_final_out_of_development(self) -> None:
         dates = {
