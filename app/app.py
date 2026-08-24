@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import secrets
 import sys
 from pathlib import Path
 
@@ -9,6 +11,7 @@ import streamlit as st
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+SAMPLE_MANIFEST = REPOSITORY_ROOT / "app/demo_samples.json"
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
@@ -50,7 +53,50 @@ def load_predictor(checkpoint_path: str) -> ParkingOccupancyPredictor:
     return ParkingOccupancyPredictor(Path(checkpoint_path), device="cpu")
 
 
-st.markdown('<div class="portfolio-kicker">AI / COMPUTER VISION PORTFOLIO</div>', unsafe_allow_html=True)
+def load_demo_samples() -> list[dict[str, object]]:
+    """Load the small purpose-created sample manifest."""
+
+    samples = json.loads(SAMPLE_MANIFEST.read_text(encoding="utf-8"))
+    if not samples or any(sample.get("evaluation_evidence") is not False for sample in samples):
+        raise ValueError("Demo sample manifest failed its non-evaluation boundary check.")
+    return samples
+
+
+def show_prediction(
+    image,
+    prediction: dict[str, object],
+    image_caption: str,
+    demonstration_label: str | None = None,
+) -> None:
+    """Render one image and the existing predictor output."""
+
+    preview_column, result_column = st.columns([1.2, 1], gap="large")
+    with preview_column:
+        st.markdown("#### Image")
+        st.image(image, caption=image_caption, width="stretch")
+    with result_column:
+        st.markdown("#### Prediction")
+        label = prediction["label"]
+        confidence = prediction["confidence"]
+        probabilities = prediction["probabilities"]
+        if label == "OCCUPIED":
+            st.warning(f"### {label}")
+        else:
+            st.success(f"### {label}")
+        st.metric("Prediction confidence", f"{confidence:.1%}")
+        st.progress(confidence)
+        empty_column, occupied_column = st.columns(2)
+        empty_column.metric("EMPTY score", f"{probabilities['EMPTY']:.1%}")
+        occupied_column.metric("OCCUPIED score", f"{probabilities['OCCUPIED']:.1%}")
+        if demonstration_label is not None:
+            st.info(f"Demonstration ground truth: **{demonstration_label}**")
+            st.caption("Purpose-created sample label · not an evaluation metric")
+
+
+st.markdown(
+    '<div class="portfolio-kicker">AI / COMPUTER VISION PORTFOLIO</div>',
+    unsafe_allow_html=True,
+)
 st.title("Parking Occupancy Detection — Cross-Domain Robustness Study")
 st.markdown(
     '<div class="portfolio-subtitle">Classify one pre-cropped parking-space image as '
@@ -58,6 +104,86 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+try:
+    resolved_checkpoint = resolve_checkpoint_path(repository_root=REPOSITORY_ROOT)
+    predictor = load_predictor(str(resolved_checkpoint))
+except (FileNotFoundError, ValueError, RuntimeError) as error:
+    st.error(f"The selected model could not be loaded: {error}")
+    st.info(
+        "Set `PARKING_MODEL_PATH` to the selected V2-A ResNet18 `.pt` checkpoint, "
+        "then restart Streamlit."
+    )
+    st.stop()
+
+try_sample_tab, upload_tab = st.tabs(["✨ Try a Sample", "⬆️ Upload Your Own"])
+
+with try_sample_tab:
+    try:
+        samples = load_demo_samples()
+        sample_by_id = {sample["id"]: sample for sample in samples}
+        sample_ids = list(sample_by_id)
+        if "demo_sample_id" not in st.session_state:
+            st.session_state["demo_sample_id"] = sample_ids[0]
+        random_column, another_column, _ = st.columns([1, 1, 2])
+        if random_column.button("🎲 Random Sample", use_container_width=True):
+            alternatives = [
+                sample_id
+                for sample_id in sample_ids
+                if sample_id != st.session_state["demo_sample_id"]
+            ]
+            st.session_state["demo_sample_id"] = secrets.choice(alternatives or sample_ids)
+        if another_column.button("↻ Try another", use_container_width=True):
+            current = sample_ids.index(st.session_state["demo_sample_id"])
+            st.session_state["demo_sample_id"] = sample_ids[(current + 1) % len(sample_ids)]
+        selected_id = st.radio(
+            "Choose a purpose-created sample",
+            sample_ids,
+            key="demo_sample_id",
+            format_func=lambda sample_id: sample_by_id[sample_id]["title"],
+            horizontal=True,
+        )
+        selected_sample = sample_by_id[selected_id]
+        sample_path = REPOSITORY_ROOT / selected_sample["image"]
+        image = decode_uploaded_image(sample_path.read_bytes())
+        with st.spinner("Classifying…"):
+            prediction = predictor.predict(image)
+    except (OSError, ValueError, RuntimeError) as error:
+        st.error(str(error))
+    else:
+        show_prediction(
+            image,
+            prediction,
+            "Purpose-created demonstration sample",
+            demonstration_label=selected_sample["known_label"],
+        )
+        st.caption(
+            "These samples are not drawn from training, validation, held-out, or "
+            "fresh-final data. Source details are recorded in the repository."
+        )
+
+with upload_tab:
+    st.markdown(
+        "Upload a **cropped image of one parking space**. The evaluated classifier "
+        "does not automatically locate spaces in a full parking-lot image."
+    )
+    uploaded_file = st.file_uploader(
+        "Parking-space crop",
+        type=["jpg", "jpeg", "png", "webp"],
+        help="JPEG, PNG, or WebP; maximum decoded upload size is 10 MB.",
+    )
+    if uploaded_file is None:
+        st.info("Choose a cropped parking-space image. The upload stays in memory.")
+    else:
+        try:
+            image = decode_uploaded_image(uploaded_file.getvalue())
+            with st.spinner("Classifying…"):
+                prediction = predictor.predict(image)
+        except (ValueError, RuntimeError) as error:
+            st.error(str(error))
+        else:
+            show_prediction(image, prediction, "Uploaded parking-space crop")
+
+st.divider()
 model_column, evaluation_column = st.columns([0.9, 2.1], gap="large")
 with model_column:
     st.subheader("Model")
@@ -78,7 +204,9 @@ with evaluation_column:
             "UFPR04 occupied recall",
             f"{final_summary['ufpr04_occupied_recall']:.4%}",
         )
-        st.caption(f"Locked one-time fresh-final evaluation · {final_summary['samples']:,} samples")
+        st.caption(
+            f"Locked one-time fresh-final evaluation · {final_summary['samples']:,} samples"
+        )
 
 st.subheader("Research Story")
 st.markdown(
@@ -94,60 +222,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-st.divider()
-st.subheader("Try the Classifier")
-
-try:
-    resolved_checkpoint = resolve_checkpoint_path(repository_root=REPOSITORY_ROOT)
-    predictor = load_predictor(str(resolved_checkpoint))
-except (FileNotFoundError, ValueError, RuntimeError) as error:
-    st.error(f"The selected model could not be loaded: {error}")
-    st.info(
-        "Set `PARKING_MODEL_PATH` to the selected V2-A ResNet18 `.pt` checkpoint, "
-        "then restart Streamlit."
-    )
-    st.stop()
-
-uploaded_file = st.file_uploader(
-    "Parking-space crop",
-    type=["jpg", "jpeg", "png", "webp"],
-    help="JPEG, PNG, or WebP; maximum decoded upload size is 10 MB.",
-)
-
-if uploaded_file is None:
-    st.info("Choose a cropped parking-space image to run inference. The image stays in memory.")
-else:
-    try:
-        image = decode_uploaded_image(uploaded_file.getvalue())
-        preview_column, result_column = st.columns([1.2, 1], gap="large")
-        with preview_column:
-            st.markdown("#### Uploaded image")
-            st.image(image, caption="Pre-cropped parking space", width="stretch")
-        with st.spinner("Classifying…"):
-            prediction = predictor.predict(image)
-    except (ValueError, RuntimeError) as error:
-        st.error(str(error))
-    else:
-        with result_column:
-            st.markdown("#### Prediction")
-            label = prediction["label"]
-            confidence = prediction["confidence"]
-            if label == "OCCUPIED":
-                st.warning(f"### {label}")
-            else:
-                st.success(f"### {label}")
-            st.metric("Prediction confidence", f"{confidence:.1%}")
-            st.progress(confidence)
-            empty_column, occupied_column = st.columns(2)
-            empty_column.metric(
-                "EMPTY probability",
-                f"{prediction['probabilities']['EMPTY']:.1%}",
-            )
-            occupied_column.metric(
-                "OCCUPIED probability",
-                f"{prediction['probabilities']['OCCUPIED']:.1%}",
-            )
 
 st.divider()
 st.markdown(

@@ -196,7 +196,7 @@ train/validation/test image-copy folders are created.
 - V2 trained on `v2_train` only and selected on `v2_validation` only
 - Fresh final opened exactly once for two immutable ResNet18 checkpoints
 - No retraining, threshold calibration, candidate switching, or post-final update
-- 25 automated tests covering data paths, splits, metrics, models, inference, and gates
+- 26 automated tests covering data paths, splits, metrics, models, inference, samples, and gates
 
 Selected checkpoint SHA-256:
 `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.

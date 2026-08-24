@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sample_a",
+    "title": "Sample A",
+    "image": "images/demo_samples/empty-purpose-created.jpg",
+    "known_label": "EMPTY",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  },
+  {
+    "id": "sample_b",
+    "title": "Sample B",
+    "image": "images/demo_samples/occupied-purpose-created.jpg",
+    "known_label": "OCCUPIED",
+    "source": "Purpose-created with OpenAI built-in image generation",
+    "created_on": "2026-08-25",
+    "evaluation_evidence": false
+  }
+]

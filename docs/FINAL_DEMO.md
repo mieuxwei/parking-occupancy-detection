@@ -28,6 +28,22 @@ The deployed app explicitly uses CPU inference. It does not require
 The small locked result JSON is read only to display the already-completed
 portfolio metrics; no evaluation is executed.
 
+## Reviewer experience
+
+The interactive classifier appears before the research metrics and offers two
+paths:
+
+- **Try a Sample:** immediately runs one of two lightweight, purpose-created
+  EMPTY/OCCUPIED scenes. Random Sample and Try another switch between them.
+- **Upload Your Own:** preserves the original JPEG/PNG/WebP single-crop upload
+  workflow and 10 MB protection.
+
+Known sample labels appear only after inference as demonstration ground truth.
+They are not sourced from any experiment split and are never reported as
+evaluation evidence. Source details are in `images/demo_samples/README.md`.
+Manual crop assistance is not included because the app intentionally avoids a
+new client-side cropping dependency; users must provide one pre-cropped space.
+
 ## Validation
 
 - Re-verified the V2-A checkpoint and selection-lock SHA-256 values.

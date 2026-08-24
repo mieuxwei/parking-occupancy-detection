@@ -17,6 +17,14 @@ PKLot-derived contact sheets and demo imagery in `images/` are included only as
 small research/documentation derivatives and remain attributed to the dataset
 authors under CC BY 4.0.
 
+## Purpose-created interactive samples
+
+The public app's two reviewer-facing samples under `images/demo_samples/` were
+purpose-created for this repository with OpenAI's built-in image generation
+tool. They are not PKLot/CNRPark images, are not part of any experiment split,
+and are not evaluation evidence. Their prompts and intended demonstration
+labels are recorded in `images/demo_samples/README.md`.
+
 ## CNRPark+EXT
 
 - Official dataset page: <https://cnrpark.it/>
