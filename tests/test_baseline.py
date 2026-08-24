@@ -19,6 +19,7 @@ from src.resnet18_transfer import build_resnet18, freeze_backbone, unfreeze_all
 from src.train_baseline import binary_metrics
 from src.prepare_pklot_manifest import parse_patch_path
 from src.prepare_pklot_adaptation_split import assign_date_groups
+from src.analyze_errors import make_error_row, rank_errors, representative_errors
 
 
 class BaselineTests(unittest.TestCase):
@@ -176,6 +177,24 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(site_splits.count("adaptation_train"), 1)
             self.assertEqual(site_splits.count("adaptation_validation"), 1)
             self.assertEqual(site_splits.count("heldout_evaluation"), 18)
+
+    def test_error_rows_and_ranking_are_deterministic(self) -> None:
+        metadata = {
+            "image_id": "PUC/2012-09-12/06:05:16#001",
+            "image_url": "PKLot/example.jpg",
+            "site": "PUC",
+            "physical_location": "PUCPR",
+            "weather": "cloudy",
+            "capture_date": "2012-09-12",
+            "capture_time": "06:05:16",
+            "source_frame_id": "PUC/2012-09-12/06:05:16",
+            "slot_id": "1",
+        }
+        lower = make_error_row(metadata, 0, 1, 0.8, 0.8)
+        higher = {**lower, "image_id": "PUC/example#002", "confidence": 0.9}
+        self.assertEqual(lower["error_type"], "false_positive")
+        self.assertEqual(rank_errors([lower, higher], "false_positive", 1), [higher])
+        self.assertEqual(representative_errors([lower, higher]), [higher])
 
 
 if __name__ == "__main__":

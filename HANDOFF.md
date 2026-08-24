@@ -2,7 +2,7 @@
 
 ## Current Milestone
 
-Milestone 8 — Fine-tuning (completed on 2026-08-22).
+Milestone 9 — Error Analysis (completed on 2026-08-24).
 
 ## Completed
 
@@ -135,6 +135,31 @@ Milestone 8 — Fine-tuning (completed on 2026-08-22).
 - Saved `results/pklot_finetuning.json`, the ignored local fine-tuned checkpoint,
   and full documentation in `docs/PKLOT_ADAPTATION_SPLIT.md` and
   `docs/PKLOT_FINETUNING.md`.
+- Added `src/analyze_errors.py` to replay the locked fine-tuned model on the
+  existing PKLot held-out split and save only wrong predictions with portable
+  metadata and confidence values.
+- Verified the checkpoint and adaptation manifest SHA-256 values before
+  analysis; weights and the 0.5 threshold were unchanged, and CNR-EXT test was
+  not reopened.
+- Reproduced the exact Milestone 8 confusion matrix
+  `[[300027, 1040], [7341, 307245]]` across all 615,653 held-out samples.
+- Saved an 8,381-row compressed local error manifest with 1,040 false positives
+  and 7,341 false negatives. It contains relative paths only and has SHA-256
+  `c3ae7d4c7652a0fc4e393ec39431295eb619f6459d4d4f3d6f8631d096d97afe`.
+- Found that UFPR04 contributes 6,117 false negatives and 73.08% of all errors;
+  its occupied recall is 0.854565 versus above 0.995 for PUC and UFPR05.
+- Found that sunny metadata accounts for 68.58% of errors, while noting that
+  weather is confounded with site/date and is not a causal lighting result.
+- Created two worst-confidence contact sheets and one site/weather representative
+  sheet without copying or reorganizing the underlying dataset.
+- Documented potential annotation/crop ambiguities visible among the most
+  confident errors; no labels were changed and no unsupported lighting,
+  occlusion, or shadow rates were invented.
+- Added unit coverage for portable error rows, deterministic ranking, and
+  representative selection; all 16 tests pass.
+- Saved the aggregate analysis in `results/error_analysis.json` and documented
+  the protocol, findings, artifacts, and limitations in
+  `docs/ERROR_ANALYSIS.md`.
 
 ## Current State
 
@@ -163,6 +188,10 @@ Milestone 8 — Fine-tuning (completed on 2026-08-22).
   `e61137bf2fbc259a2b7bd22ecc9840dda8c2668d9f73b7352bbaa3d47809e7ce`.
 - Milestone 8 before/after metrics use the same 615,653 held-out samples. Those
   held-out labels must not be used to revise the completed fine-tuning run.
+- The local ignored error manifest contains only held-out mistakes and portable
+  metadata; it must not be promoted into adaptation train/validation data.
+- Three tracked contact sheets are small documentation derivatives. The source
+  PKLot images and all large archives remain only on external storage.
 
 ## Key Decision
 
@@ -196,10 +225,10 @@ Do not commit the actual machine-specific path.
 
 ## Next Step
 
-Milestone 9 — Error Analysis. Use the already saved held-out results and selected
-fine-tuned checkpoint to define a read-only error manifest containing image ID,
-relative path, true label, prediction, confidence, site, weather, and date.
-Analyze false positives and false negatives by site and weather, with particular
-attention to UFPR04's recall tradeoff. Sample representative worst-confidence
-errors for documented visual inspection. Do not retrain, recalibrate, or start
-the demo milestone during error analysis.
+Milestone 10 — Minimal Demo. Build a small inference interface for one uploaded
+cropped parking-space image using the selected fine-tuned checkpoint. Return
+`EMPTY` or `OCCUPIED` plus confidence, reuse the exact ResNet18 preprocessing,
+validate file type and decode failures, and keep `PARKING_DATA_ROOT` and the
+checkpoint path configurable. Do not add training, automatic parking-space
+detection, dataset copying, deployment, or portfolio-finalization work to the
+minimal demo.

@@ -65,6 +65,8 @@ Frozen-model in-domain and cross-domain metrics are in the
 The audited target adaptation split and fine-tuning before/after results are in
 the [adaptation split report](docs/PKLOT_ADAPTATION_SPLIT.md) and
 [fine-tuning report](docs/PKLOT_FINETUNING.md).
+The locked-model false-positive/false-negative, site, weather, date, and visual
+inspection findings are in the [error-analysis report](docs/ERROR_ANALYSIS.md).
 
 ## Methodology
 
@@ -101,8 +103,9 @@ parking-occupancy-detection/
 
 ## Project Status
 
-Milestone 8 — Fine-tuning is complete. On the disjoint 615,653-sample PKLot
+Milestone 9 — Error Analysis is complete. On the disjoint 615,653-sample PKLot
 held-out set, frozen ResNet18 accuracy/F1 were 0.762163/0.809347 and fine-tuned
 accuracy/F1 were 0.986387/0.986545. The target adaptation protocol used six
 train dates and six validation dates with zero date/frame leakage. CNR-EXT test
-was not reopened. The next milestone is error analysis.
+was not reopened. Of 8,381 remaining errors, 7,341 were false negatives; UFPR04
+accounted for 6,117 of them. The next milestone is a minimal inference demo.
