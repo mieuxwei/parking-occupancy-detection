@@ -1,8 +1,13 @@
 # Frozen Portfolio Publication Checklist
 
-This records local preparation and the external settings actually applied; it
-is not a new research milestone or a published code release. No completion date
-is inferred from repository creation or commit timestamps.
+This records the completed publication and its verification evidence, not a new
+research milestone. The research and final model remain frozen.
+
+- Published release: [v1.0.0 — Frozen Portfolio Release](https://github.com/mieuxwei/parking-occupancy-detection/releases/tag/v1.0.0).
+- Frozen tag target: `47cb05f6e6d835e850c8dfb40ba71363d3e802c0`.
+- Published at: **2026-09-04 03:13:11 Asia/Taipei (UTC+08:00)**, verified from
+  GitHub's publication timestamp. This is the release date, not an inferred
+  research completion date.
 
 ## Starting state and preservation
 
@@ -15,8 +20,8 @@ is inferred from repository creation or commit timestamps.
   with empty description/homepage/topics. The owner browser session subsequently
   applied and verified the exact About values below; visibility and archival
   settings were not changed.
-- Local `v1.0.0` tag was absent; public tags and releases returned empty lists.
-  Recheck immediately before publishing; never overwrite a later-created tag.
+- Before publication, local `v1.0.0` was absent and public tags/releases were
+  empty. The new tag and release were created without overwriting any version.
 
 ## Verification status
 
@@ -31,8 +36,11 @@ is inferred from repository creation or commit timestamps.
   `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.
 - README, abstract, summary, and comparison values were checked against the
   existing result JSON by read-only inspection; no metric was recomputed.
-- Linux CPU workflow: prepared, **not yet run on GitHub**. Local Docker daemon
-  was unavailable, so local tests are not represented as a Linux CI pass.
+- Linux CPU workflow: **passed on GitHub** for the frozen tag target above.
+  [Run 33794482408](https://github.com/mieuxwei/parking-occupancy-detection/actions/runs/33794482408)
+  passed dependency installation, CPU runtime verification, checkpoint SHA-256,
+  portable unit tests, Python compilation, and whitespace checks. This hosted
+  Linux result is separate from the local macOS tests.
 - Live browser: app was asleep; the wake button loaded the interface without a
   sign-in prompt. Sample A showed EMPTY; switching to Sample B showed OCCUPIED.
 - Live JPEG upload: the existing demonstration crop displayed a preview,
@@ -40,10 +48,10 @@ is inferred from repository creation or commit timestamps.
   PNG, WebP and a 10 MB limit.
 - Streamlit's Share dialog showed **Make this app public** already checked.
   No Streamlit sharing or model setting needed to be changed.
-- Clean anonymous session: **still needs independent confirmation**. The
-  available in-app browser has no fresh-cookie/incognito capability; no Chrome
-  provider was available. A new tab without a sign-in prompt does not prove
-  cookie isolation. Do not label this as a completed clean-session audit.
+- Clean anonymous session: **independently confirmed by the project owner**
+  before release publication, including sample and upload operation. The
+  automated browser used an existing session; it is not presented as the
+  source of the clean-session verification.
 - Two legacy document URLs returned HTTP 200. Neutral local compatibility pages
   preserve both paths after publication.
 - Social preview: [PNG](../images/social_preview.png), 1280×640, with
@@ -81,7 +89,10 @@ No object-detection, YOLO, real-time, or localization topics were added.
 Only these explicitly requested metadata settings were changed, using the
 existing owner session without a new login. The repository was not archived.
 
-## Final anonymous demo check
+## Anonymous demo recheck procedure
+
+The release acceptance check is complete (owner-confirmed above). These steps
+remain available for future hosting checks; they are not outstanding tasks.
 
 1. Open a new Chrome Incognito / Firefox Private window with no Streamlit login.
 2. Open the exact Live Demo URL above. If asleep, use the wake button.
@@ -95,44 +106,20 @@ existing owner session without a new login. The repository was not archived.
 
 The GIF and local launch instructions remain available during hosting downtime.
 
-## Commit and push — manual, after review
+## Commit and push — completed
 
-Run only in this repository. Review the staged diff and ensure it contains only
-the intended presentation work; do not include unrelated staged work.
+- `0a8becb178b34ea4d81ec5de08b555c4a5a40462`: presentation, documentation, and CPU CI.
+- `47cb05f6e6d835e850c8dfb40ba71363d3e802c0`: workflow trailing-blank-line cleanup.
+- Both commits were pushed to `main`; the latter passed the hosted CI run above.
 
-```bash
-git status --short --branch
-git diff --check
-git add -- README.md THIRD_PARTY_NOTICES.md .github/workflows/cpu-tests.yml docs/README.md docs/PROJECT_OVERVIEW_AND_STATUS.md docs/PROJECT_ABSTRACT.md docs/PROJECT_HIGHLIGHTS.md docs/GRADUATE_APPLICATION_ABSTRACT.md docs/CV_PROJECT_DESCRIPTION.md docs/FINAL_RESEARCH_SUMMARY.md docs/MODEL_COMPARISON.md docs/FINAL_DEMO.md docs/REPRODUCTION.md docs/PUBLICATION_CHECKLIST.md docs/releases/v1.0.0.md images/demo_samples/README.md images/social_preview.svg images/social_preview.png
-git diff --cached --stat
-git diff --cached --check
-git commit -m "docs: finalize frozen research presentation and add CPU CI"
-git push origin HEAD:main
-```
+## Tag and Release — published
 
-Then open GitHub **Actions → Linux CPU tests** and inspect the run for that
-exact commit. Resolve environment/dependency/code failures explicitly. Only
-after success may a status badge be added. Do not claim the local macOS test
-run is the hosted Linux result.
+[v1.0.0 — Frozen Portfolio Release](https://github.com/mieuxwei/parking-occupancy-detection/releases/tag/v1.0.0)
+is a published, non-prerelease version at the exact verified commit above.
+The release body records the checkpoint hash, scoped results, commit-pinned
+evidence links, CI success, owner-confirmed anonymous access, and limitations.
 
-## Tag and Release — only after the publication gates pass
-
-1. Confirm the published commit and successful CI; copy `git rev-parse HEAD`.
-2. Recheck local and remote tags, and the GitHub Releases page:
-
-```bash
-git tag --list v1.0.0
-git ls-remote --tags origin refs/tags/v1.0.0 'refs/tags/v1.0.0^{}'
-```
-
-3. If either tag or Release exists, stop and report the conflict. Do not force,
-   delete, or replace it.
-4. In GitHub **Releases → Draft a new release**, create tag `v1.0.0` at the
-   verified commit (not an unreviewed newer HEAD). Use title
-   **v1.0.0 — Frozen Portfolio Release**.
-5. Copy the [release draft](releases/v1.0.0.md), replace its commit placeholder
-   and relative links as instructed, and remove draft-only instructions. Include
-   the verified CI run URL. Publish only after the anonymous check passes.
-
-No tag or Release was created during this task. The draft deliberately does not
-invent the SHA of an uncreated commit.
+The [original preparation draft](releases/v1.0.0.md) is retained as historical
+pre-publication material; the published release is the authoritative version.
+Subsequent documentation maintenance does not move or recreate the frozen tag.
+No research artifact, model, split, threshold, or evaluation result changed.

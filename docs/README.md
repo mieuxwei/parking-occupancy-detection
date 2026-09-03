@@ -6,6 +6,7 @@
 Research results and the final V2-A model are locked; this index describes the
 current presentation, not a new modeling phase.
 
+- [v1.0.0 — Frozen Portfolio Release](https://github.com/mieuxwei/parking-occupancy-detection/releases/tag/v1.0.0)
 - [Project Abstract / 專案摘要](PROJECT_ABSTRACT.md)
 - [Project Highlights / 專案重點](PROJECT_HIGHLIGHTS.md)
 - [中文技術總覽](PROJECT_OVERVIEW_AND_STATUS.md)
@@ -43,8 +44,11 @@ charts are retained. Legacy document URLs have neutral moved-page notices.
 
 ## Publication maintenance
 
-- [Publication checklist and external settings](PUBLICATION_CHECKLIST.md)
-- [v1.0.0 release notes draft](releases/v1.0.0.md)
+- [Completed publication checklist and verification evidence](PUBLICATION_CHECKLIST.md)
+- [Published v1.0.0 release notes](https://github.com/mieuxwei/parking-occupancy-detection/releases/tag/v1.0.0)
+- [Historical pre-publication draft](releases/v1.0.0.md)
 
-These are preparation documents, not proof that a tag, release, CI run, or
-external setting has already been published.
+The release is published at `47cb05f6e6d835e850c8dfb40ba71363d3e802c0`, with
+[successful Linux CPU CI](https://github.com/mieuxwei/parking-occupancy-detection/actions/runs/33794482408)
+and owner-confirmed anonymous demo acceptance. The retained draft describes the
+pre-publication stage; it is not the current release status.
