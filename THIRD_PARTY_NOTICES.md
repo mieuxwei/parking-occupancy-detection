@@ -19,7 +19,7 @@ authors under CC BY 4.0.
 
 ## Purpose-created interactive samples
 
-The public app's ten reviewer-facing samples under `images/demo_samples/` were
+The public app's ten demonstration samples under `images/demo_samples/` were
 purpose-created for this repository with OpenAI's built-in image generation
 tool. They are not PKLot/CNRPark images, are not part of any experiment split,
 and are not evaluation evidence. Their prompts and intended demonstration

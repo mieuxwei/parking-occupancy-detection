@@ -69,11 +69,10 @@ V2-A passed both precommitted robustness conditions: UFPR04 occupied recall
 improved by +0.140947, and overall occupied F1 improved by +0.007002. The result
 is terminal and cannot be used to revise either model.
 
-## Final production decision / 最終模型決策
+## Final frozen demo model / 最終模型決策
 
-The production demo uses `models/v2a_balanced_resnet18.pt`, SHA-256
+The frozen demo uses `models/v2a_balanced_resnet18.pt`, SHA-256
 `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.
 The 224×224 edge-pad/ImageNet-normalized preprocessing and threshold 0.5 remain
 locked. 最終展示模型為 V2-A ResNet18；未重新訓練、未調整 threshold，也未重開
 fresh-final evaluation。
-

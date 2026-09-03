@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Cross-Domain Parking Occupancy Detection</title>
+  <desc id="desc">Completed and frozen single-crop classification study. Source occupied F1 drops from 0.988692 on CNR-EXT test to 0.788652 on PKLot zero-shot. On the same 154,669 fresh-final samples, UFPR04 recall improves from V1 0.859053 to V2-A 1.000000.</desc>
+  <rect width="1280" height="640" fill="#F5F7FB"/>
+  <rect width="1280" height="8" fill="#2563EB"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#172033">
+    <text x="48" y="49" font-size="18" font-weight="700" fill="#566176">INDEPENDENT AI RESEARCH PROJECT · COMPLETED AND FROZEN</text>
+    <text x="48" y="106" font-size="46" font-weight="700">Cross-Domain Parking</text>
+    <text x="48" y="158" font-size="46" font-weight="700">Occupancy Detection</text>
+    <text x="48" y="196" font-size="23" fill="#2563EB">Single-crop parking-space occupancy classification</text>
+    <text x="48" y="231" font-size="19" fill="#566176">Domain shift → Error analysis → Site robustness → Precommitted final evaluation</text>
+    <rect x="48" y="259" width="569" height="277" rx="16" fill="#FFFFFF" stroke="#DCE2EC"/>
+    <text x="72" y="297" font-size="23" font-weight="700">Domain shift · occupied F1</text>
+    <text x="72" y="326" font-size="17" fill="#566176">Same frozen source model, different domains</text>
+    <text x="72" y="364" font-size="18">CNR-EXT test · 19,155 samples</text>
+    <rect x="72" y="379" width="395.4768" height="22" rx="4" fill="#2563EB"/>
+    <text x="592" y="398" text-anchor="end" font-size="20" font-weight="700">0.988692</text>
+    <text x="72" y="442" font-size="18">PKLot zero-shot · 695,695 samples</text>
+    <rect x="72" y="457" width="315.4608" height="22" rx="4" fill="#E8792E"/>
+    <text x="592" y="476" text-anchor="end" font-size="20" font-weight="700">0.788652</text>
+    <text x="72" y="514" font-size="16" fill="#566176">Shared bar scale: 0 to 1. Not a same-test model ranking.</text>
+    <rect x="639" y="259" width="593" height="277" rx="16" fill="#FFFFFF" stroke="#DCE2EC"/>
+    <text x="663" y="297" font-size="23" font-weight="700">UFPR04 · occupied recall</text>
+    <text x="663" y="326" font-size="17" fill="#566176">V1 vs V2-A on the same fresh-final protocol</text>
+    <text x="663" y="352" font-size="17" fill="#566176">154,669 total samples · site-specific metric below</text>
+    <line x1="705" y1="421" x2="1177" y2="421" stroke="#DCE2EC" stroke-width="4"/>
+    <line x1="733.486773333" y1="421" x2="1177" y2="421" stroke="#566176" stroke-width="6"/>
+    <circle cx="733.486773333" cy="421" r="12" fill="#7656C8"/>
+    <circle cx="1177" cy="421" r="12" fill="#0F9D8A"/>
+    <text x="733" y="390" text-anchor="middle" font-size="20" fill="#7656C8">V1 · 0.859053</text>
+    <text x="1199" y="390" text-anchor="end" font-size="20" fill="#0F9D8A">V2-A · 1.000000</text>
+    <text x="705" y="459" text-anchor="middle" font-size="16" fill="#566176">0.85</text>
+    <text x="941" y="459" text-anchor="middle" font-size="16" fill="#566176">0.925</text>
+    <text x="1177" y="459" text-anchor="middle" font-size="16" fill="#566176">1.00</text>
+    <text x="663" y="514" font-size="16" fill="#566176">Truncated recall axis · locked threshold 0.5</text>
+    <text x="48" y="579" font-size="20" font-weight="700">PyTorch · ResNet18 · Leakage-aware evaluation · Streamlit</text>
+    <text x="48" y="614" font-size="18" fill="#566176">No localization, full-lot detection, or live CCTV. Research results remain unchanged.</text>
+  </g>
+</svg>

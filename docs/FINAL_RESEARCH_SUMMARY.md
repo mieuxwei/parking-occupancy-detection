@@ -10,7 +10,7 @@
 
 V2 事先鎖定 site/label-balanced sampling、溫和 augmentation、seed、split、選模規則與 fresh-final gate。V2-A ResNet18 與 V2-B EfficientNet-B0 僅使用 `v2_train` 訓練，並僅使用 `v2_validation` 選模；V2-A 以較高 macro-site F1 0.999489 勝出。最後，V1 與 V2-A 在同一 154,669 筆 fresh-final samples 上進行唯一一次比較。V2-A 達到 Accuracy 0.998894、occupied F1 0.998912、UFPR04 occupied recall 1.000000，並同時通過「UFPR04 recall 至少提升 +0.02」與「overall F1 不得下降超過 0.005」兩項 precommitted gate。
 
-本專題的主要成果不只是最終分數，而是完整保留 baseline、domain shift、adaptation、error analysis、controlled candidate selection 與 terminal evaluation 的研究脈絡。最終 production demo 使用鎖定的 V2-A checkpoint，維持 224×224 edge padding、bilinear resize、ImageNet normalization 與 threshold 0.5。
+本專題的主要成果不只是最終分數，而是完整保留 baseline、domain shift、adaptation、error analysis、controlled candidate selection 與 terminal evaluation 的研究脈絡。最終凍結展示 使用鎖定的 V2-A checkpoint，維持 224×224 edge padding、bilinear resize、ImageNet normalization 與 threshold 0.5。
 
 ## English Summary
 
@@ -44,7 +44,7 @@ The immutable V1 and selected V2-A were then compared once on the same 154,669
 fresh-final samples. V2-A achieved 0.998894 accuracy, 0.998912 occupied F1, and
 1.000000 UFPR04 occupied recall, passing both precommitted robustness gates.
 
-The final production demo uses the locked V2-A checkpoint with unchanged 224px
+The final frozen demo uses the locked V2-A checkpoint with unchanged 224px
 edge padding, bilinear resizing, ImageNet normalization, and threshold 0.5.
 Earlier results remain visible because the research progression—and the
 boundaries between development, selection, and final evaluation—is part of the
@@ -67,3 +67,21 @@ deliverable.
 - “Fresh final” is disjoint from V1 adaptation and V2 development, but PKLot images had historically received V1 inference before this protocol; the result is not claimed as never previously inferred by V1.
 - The final result is closed and may not be used for another model update.
 
+
+## Full Research Progression
+
+| Stage | Dataset / boundary | Main result | Research decision |
+|---|---|---|---|
+| 1. SimpleCNN baseline | CNR-EXT validation, 18,938 | Accuracy 0.980885; F1 0.980611 | Established a small from-scratch baseline |
+| 2. ResNet18 transfer learning | Same CNR-EXT validation | Accuracy 0.995248; F1 0.995199 | Transfer learning won on the fair split |
+| 3. In-domain evaluation | CNR-EXT one-time test, 19,155 | Accuracy 0.988567; F1 0.988692 | Locked source-domain performance |
+| 4. Zero-shot domain shift | PKLot, 695,695 | Accuracy 0.743097; F1 0.788652 | Revealed a 0.200040 F1 drop |
+| 5. V1 target adaptation | PKLot held-out, 615,653 | Accuracy 0.986387; F1 0.986545 | Recovered most target-domain performance |
+| 6. Error analysis | Same completed V1 held-out result | 8,381 errors; 7,341 FN; UFPR04 recall 0.854565 | Identified a site-specific FN weakness |
+| 7. V2 robustness protocol | New disjoint site/date groups | Balanced site/label sampling, mild augmentation, locked gate | Excluded analyzed V1 errors from development |
+| 8. V2 candidate selection | `v2_validation`, 42,148 | ResNet18 macro-site F1 0.999489 vs EfficientNet 0.999104 | Selected V2-A using validation only |
+| 9. One-time V1 vs V2 | Fresh final, 154,669 | V2-A Accuracy 0.998894; F1 0.998912; UFPR04 recall 1.000000 | Both precommitted robustness gates passed |
+
+Metrics from different rows belong to different protocols and are not a single
+leaderboard. 不同階段的數值保留其原始 dataset/split 語境，只有標明相同 split 的
+比較才是直接公平比較。

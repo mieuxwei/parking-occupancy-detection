@@ -1,271 +1,149 @@
 # Cross-Domain Parking Occupancy Detection
 
-## 基於遷移學習與洩漏防護協議的跨場域停車格占用辨識
+### Single-crop parking-space occupancy classification
 
-A reproducible computer-vision study of source-domain learning, zero-shot domain
-shift, target adaptation, error analysis, and precommitted robustness
-evaluation. 本專題以可重現、可稽核的方式研究單一停車格裁切影像的
-`EMPTY`／`OCCUPIED` 分類，以及模型跨停車場時的泛化與改善策略。
+**Independent AI Research Project · Completed and Frozen**
 
-## 🚀 Live Demo
+個人自主 AI 研究作品｜已完成並凍結
 
-### [▶ Open the Public Streamlit Demo](https://parking-occupancy-detection-hk9l6wzyvtkrqjr6tkvftc.streamlit.app/)
+A leakage-aware PyTorch study of cross-domain parking-space occupancy
+classification from CNRPark+EXT to PKLot.
 
-The demo accepts one JPEG, PNG, or WebP crop and runs the locked V2-A model on
-CPU. **This demo expects a pre-cropped image of a single parking space.**
+以 PyTorch 建立具資料洩漏防護的跨場域停車格占用分類研究，
+分析跨場域落差、目標場域適應與場域穩健性。
 
-## Final Results / 最終結果
+**Scope:** Classification of a pre-cropped parking-space image as `EMPTY` or
+`OCCUPIED`. No parking-space localization, full-lot detection, or live CCTV.
+不包含車位定位、完整停車場影像偵測或即時 CCTV 監控。
 
-| Production model | Fresh-final samples | Accuracy | Occupied F1 | Occupied recall | FP | FN |
-|---|---:|---:|---:|---:|---:|---:|
-| **V2-A balanced ResNet18** | 154,669 | **99.8894%** | **99.8912%** | **99.9058%** | **97** | **74** |
+[🚀 Live Demo](https://parking-occupancy-detection-hk9l6wzyvtkrqjr6tkvftc.streamlit.app/) ·
+[Project Summary](docs/FINAL_RESEARCH_SUMMARY.md) ·
+[中文技術總覽](docs/PROJECT_OVERVIEW_AND_STATUS.md) ·
+[Reproduction](docs/REPRODUCTION.md)
 
-Fresh-final confusion matrix: `[[75989, 97], [74, 78509]]`.
+## Core Results / 核心成果
 
-The final model was selected on `v2_validation` only and compared with immutable
-V1 exactly once on a disjoint fresh-final protocol. 最終模型未使用 fresh-final
-選模；threshold、前處理與 evaluation code 在開啟前已鎖定。
+| Question and evaluation boundary | Locked result |
+|---|---|
+| Same frozen source ResNet18, **different domains**: CNR-EXT test (19,155) → PKLot zero-shot (695,695) | Occupied F1 **0.988692 → 0.788652** |
+| Final V2-A, **154,669 fresh-final samples** | Accuracy **0.998894**; occupied F1 **0.998912** |
+| V1 → V2-A, **same fresh-final set**, UFPR04 subset | Occupied recall **0.859053 → 1.000000** |
 
-![V2-A Streamlit demo](images/v2_parking_occupancy_demo.gif)
+These are separate evaluation contexts, not one model leaderboard.
+不同場域與 split 的結果不可混為單一排名；V1／V2-A 才是在同一 fresh-final set 上比較。
 
-## Why This Project Is Technically Interesting / 技術重點
+## Domain Shift
 
-- It measures a real source-to-target domain shift instead of reporting only an
-  in-domain score.
-- It uses grouped, leakage-aware splits and records exact configs, seeds,
-  manifests, hashes, and experiment boundaries.
-- It turns a documented UFPR04 false-negative weakness into a precommitted V2
-  robustness protocol without training on the analyzed error manifest.
-- It preserves failed and intermediate stages so the final score remains part
-  of an auditable research progression rather than an isolated claim.
+![Same frozen source model across CNR-EXT and PKLot](images/domain_shift.svg)
 
-## Project Overview / 專題概述
+The same frozen source model lost **0.200040 occupied F1** on zero-shot transfer.
+This cross-domain comparison exposed the problem; it is not a ranking of two
+models on the same test set. [Protocol and evidence](docs/CROSS_DOMAIN_EVALUATION.md).
 
-The system classifies one already cropped parking space as `EMPTY` or
-`OCCUPIED`. The research asks whether transfer learning improves a from-scratch
-baseline, how severely performance changes across parking lots, whether
-target-domain adaptation helps, and how a documented site-specific weakness can
-be improved without tuning on analyzed held-out errors.
+## V1 → V2 Robustness
 
-系統輸入為單一已裁切停車格，不包含整張停車場的車位定位。研究重點涵蓋
-SimpleCNN baseline、ResNet18 transfer learning、CNR-EXT in-domain test、PKLot
-zero-shot domain shift、target adaptation、error analysis，以及 V2
-validation-only selection 與一次性 fresh-final comparison。
+![V1 and V2-A on the same fresh-final samples](images/v1_v2_improvement.svg)
 
-## Research Questions / 研究問題
+V1 adaptation recovered much of the target-domain performance, but error
+analysis exposed a false-negative concentration at UFPR04. V2 precommitted
+site/label-balanced sampling, mild augmentation, and validation-only selection
+between ResNet18 and EfficientNet-B0. The analyzed V1 errors were not development
+inputs; EfficientNet-B0 never entered fresh final.
 
-- Can a lightweight SimpleCNN provide a meaningful baseline?
-- Does ImageNet-pretrained ResNet18 outperform it on the same grouped split?
-- How large is the source-to-target domain shift from CNR-EXT to PKLot?
-- Can target-domain adaptation recover performance without crossing evaluation boundaries?
-- Which site and error type dominate the remaining failures?
-- Can a precommitted V2 protocol improve UFPR04 occupied recall without reducing overall F1?
+The selected V2-A passed both locked gates on the **same 154,669 samples**:
+UFPR04 recall improved by **+0.140947** (required ≥ +0.02), and occupied F1
+improved by **+0.007002** (allowed degradation no worse than −0.005).
+[Full comparison](docs/MODEL_COMPARISON.md) ·
+[One-time final record](docs/V2_FRESH_FINAL_COMPARISON.md).
 
-## Research Workflow / 研究架構
+## Demo and Local Use
 
-![Leakage-aware research workflow](images/research_workflow.svg)
+[**🚀 Open the Live Demo**](https://parking-occupancy-detection-hk9l6wzyvtkrqjr6tkvftc.streamlit.app/)
 
-Large datasets live on an external SSD through `PARKING_DATA_ROOT`. The
-repository stores portable manifests, group assignments, small configs, hashes,
-code, and results—never train/validation/test image copies.
+![Recorded V2-A single-crop demo](images/v2_parking_occupancy_demo.gif)
 
-大型資料只存放於外接 SSD；manifest 僅記錄相對路徑與 ID。所有主要 split 依
-date、site、source frame 或 camera/slot group 建立，避免相似影像跨 split。
+The GIF is a recorded fallback; the current interface also includes
+**Try a Sample** with ten demonstration images and **Upload Your Own**.
+Samples are demonstration material, **not evaluation evidence**.
 
-## Research Progression / 研究演進
+Upload one cropped JPEG, PNG, or WebP (maximum 10 MB). The app displays
+`EMPTY`/`OCCUPIED`, predicted-class confidence, and both class scores.
+Uploads stay in memory. Scores are uncalibrated softmax outputs.
 
-| Stage | Dataset / boundary | Main result | Research decision |
-|---|---|---|---|
-| 1. SimpleCNN baseline | CNR-EXT validation, 18,938 | Accuracy 0.980885; F1 0.980611 | Established a small from-scratch baseline |
-| 2. ResNet18 transfer learning | Same CNR-EXT validation | Accuracy 0.995248; F1 0.995199 | Transfer learning won on the fair split |
-| 3. In-domain evaluation | CNR-EXT one-time test, 19,155 | Accuracy 0.988567; F1 0.988692 | Locked source-domain performance |
-| 4. Zero-shot domain shift | PKLot, 695,695 | Accuracy 0.743097; F1 0.788652 | Revealed a 0.200040 F1 drop |
-| 5. V1 target adaptation | PKLot held-out, 615,653 | Accuracy 0.986387; F1 0.986545 | Recovered most target-domain performance |
-| 6. Error analysis | Same completed V1 held-out result | 8,381 errors; 7,341 FN; UFPR04 recall 0.854565 | Identified a site-specific FN weakness |
-| 7. V2 robustness protocol | New disjoint site/date groups | Balanced site/label sampling, mild augmentation, locked gate | Excluded analyzed V1 errors from development |
-| 8. V2 candidate selection | `v2_validation`, 42,148 | ResNet18 macro-site F1 0.999489 vs EfficientNet 0.999104 | Selected V2-A using validation only |
-| 9. One-time V1 vs V2 | Fresh final, 154,669 | V2-A Accuracy 0.998894; F1 0.998912; UFPR04 recall 1.000000 | Both precommitted robustness gates passed |
-
-Metrics from different rows belong to different protocols and are not a single
-leaderboard. 不同階段的數值保留其原始 dataset/split 語境，只有標明相同 split 的
-比較才是直接公平比較。
-
-## Model Comparison / 模型比較
-
-### Same CNR-EXT validation split
-
-| Model | Accuracy | Precision | Recall | Occupied F1 |
-|---|---:|---:|---:|---:|
-| SimpleCNN | 0.980885 | 0.986954 | 0.974348 | 0.980611 |
-| ResNet18 transfer learning | **0.995248** | **0.997434** | **0.992975** | **0.995199** |
-
-### V2 validation-only selection
-
-| Candidate | Accuracy | Occupied F1 | Macro-site F1 | Minimum-site recall |
-|---|---:|---:|---:|---:|
-| V2-A balanced ResNet18 | **0.999478** | **0.999401** | **0.999489** | **0.999512** |
-| V2-B balanced EfficientNet-B0 | 0.998909 | 0.998748 | 0.999104 | 0.998048 |
-
-### Same locked fresh-final set
-
-| Model | Accuracy | Precision | Recall | Occupied F1 | Macro-site F1 | UFPR04 recall | FP | FN |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| V1 target-adapted ResNet18 | 0.991834 | 0.998594 | 0.985315 | 0.991910 | 0.973232 | 0.859053 | 109 | 1,154 |
-| **V2-A balanced ResNet18** | **0.998894** | **0.998766** | **0.999058** | **0.998912** | **0.998763** | **1.000000** | **97** | **74** |
-
-Full boundary-aware tables are in the [model comparison report](docs/MODEL_COMPARISON.md).
-
-## Domain Shift / 跨場域落差
-
-![CNR-EXT to PKLot domain shift](images/domain_shift.svg)
-
-The frozen source ResNet18 lost 0.245470 accuracy and 0.200040 occupied F1 when
-moved from the CNR-EXT test to PKLot without target adaptation. This result
-motivated the adaptation track; it was not overwritten by later improvements.
-
-## V1 → V2 Robustness Improvement / 穩健性改善
-
-![V1 versus V2-A improvement](images/v1_v2_improvement.svg)
-
-The precommitted gate required at least +0.02 absolute UFPR04 occupied-recall
-gain and no more than -0.005 overall occupied-F1 degradation. Observed changes
-were +0.140947 and +0.007002 respectively, so both conditions passed.
-
-## Error Analysis Summary / 錯誤分析摘要
-
-On the completed 615,653-sample V1 held-out evaluation:
-
-- Confusion matrix: `[[300027, 1040], [7341, 307245]]`
-- 8,381 total errors: 1,040 false positives and 7,341 false negatives
-- UFPR04 contributed 6,117 false negatives and 73.08% of all errors
-- UFPR04 occupied recall was 0.854565, versus above 0.995 for PUC and UFPR05
-- Sunny metadata covered 68.58% of errors, but weather is confounded with site/date and is not interpreted causally
-- Visual inspection found possible annotation/crop ambiguities; no labels were changed
-
-The analyzed error manifest, aggregate analysis, and contact sheets were
-explicitly forbidden as V2 training or selection inputs. See
-[Error Analysis](docs/ERROR_ANALYSIS.md).
-
-## Final Production Demo / 最終展示
-
-The existing Streamlit interface now accepts only the selected V2-A checkpoint
-format. It keeps the original single-image layout and unchanged inference
-contract.
+If the hosted app is sleeping or unavailable, use the GIF above, the
+[screenshot](images/v2_demo_inference_result.png), or run locally with Python 3.11:
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -r app/requirements.txt
 streamlit run app/app.py
 ```
 
-If `PARKING_MODEL_PATH` is unset, the app uses
-`models/v2a_balanced_resnet18.pt`. The public repository includes only this
-locked production checkpoint. The loader verifies its exact SHA-256, selected
-candidate, architecture, and experiment-config hash before loading.
+**Final frozen demo model:** `models/v2a_balanced_resnet18.pt`.
+Its SHA-256, selected candidate, architecture, and config hash are checked at
+load time. CPU inference needs no dataset, external SSD, login credential, or
+API key. [Locked demo inference contract](docs/FINAL_DEMO.md).
 
-- Input: one cropped JPEG, PNG, or WebP image, up to 10 MB
-- Preprocessing: edge-pad → 224×224 bilinear resize → ImageNet normalization
-- Decision threshold: occupied probability ≥ 0.5
-- Output: `EMPTY`/`OCCUPIED`, confidence, and both class scores
-- Dataset access: not required; uploads remain in memory
+## Quick Project Tour / 快速導覽
 
-See the [final V2-A demo guide](docs/FINAL_DEMO.md). The original Milestone 10
-V1 demo documentation and images remain preserved as historical artifacts.
+- [Project Abstract / 專案摘要](docs/PROJECT_ABSTRACT.md) — problem, method, findings, limitations.
+- [Project Highlights / 專案重點](docs/PROJECT_HIGHLIGHTS.md) — technical contributions and implementation.
+- [Research summary and nine-stage progression](docs/FINAL_RESEARCH_SUMMARY.md) — SimpleCNN through locked V2-A.
+- [Model comparison](docs/MODEL_COMPARISON.md) — full tables with dataset/split boundaries.
+- [Error analysis](docs/ERROR_ANALYSIS.md) — V1's 8,381 errors, including 7,341 false negatives.
+- [Reproduction and evidence](docs/REPRODUCTION.md) — safe checks, configs, manifests, hashes, and historical records.
+- [中文技術總覽](docs/PROJECT_OVERVIEW_AND_STATUS.md) · [Documentation index](docs/README.md).
 
-## Datasets and Storage / 資料與儲存
+## Technical Approach
 
-- Source-domain dataset: CNRPark+EXT
-- Target-domain dataset: PKLot
-- Labels: `0 = EMPTY`, `1 = OCCUPIED`
-- Large archives/extractions: external SSD only
-- Repository `data/`: metadata, manifests, summaries, and small configs only
+- **PyTorch / torchvision:** SimpleCNN baseline, ImageNet ResNet18 transfer
+  learning, target adaptation, and one controlled EfficientNet-B0 candidate.
+- **Data and evaluation:** grouped date/site/source-frame splits, balanced
+  sampling, occupied and macro-site metrics, error analysis, precommitted gates.
+- **Software:** modular Python, NumPy, Pillow/OpenCV image tooling, Streamlit,
+  portable synthetic-fixture unit tests, and Linux CPU CI configuration.
 
-```bash
-export PARKING_DATA_ROOT="/absolute/path/to/external-ssd/parking-datasets"
-python -m src.data_paths
-```
+## Reproducibility and Freeze
 
-No machine-specific absolute storage path is committed. No physical
-train/validation/test image-copy folders are created.
+Configs, seeds, training histories, manifests, and SHA-256 locks preserve the
+research trail. V2 trained only on `v2_train` and was selected only on
+`v2_validation`. Fresh final is complete and closed: no retraining, reselection,
+threshold adjustment, or final-set reopening.
 
-## Reproducibility and Boundaries / 可重現性與邊界
+The repository keeps **only the final frozen demo checkpoint**:
+44,790,987 bytes (42.72 MiB, approximately 43 MiB). It is intentionally in normal
+Git so a clone can run the demo immediately; no Git LFS migration or other
+weights are included. Dataset archives remain excluded.
 
-- Deterministic group assignments and recorded random seeds
-- Exact JSON configurations and training histories
-- Checkpoint, manifest, config, selection-lock, and result SHA-256 values
-- V1 completed results preserved without reinterpretation
-- V2 trained on `v2_train` only and selected on `v2_validation` only
-- Fresh final opened exactly once for two immutable ResNet18 checkpoints
-- No retraining, threshold calibration, candidate switching, or post-final update
-- 26 automated tests covering data paths, splits, metrics, models, inference, samples, and gates
-
-Selected checkpoint SHA-256:
+Checkpoint SHA-256:
 `97b039fa7d4125e993903c4d1b485a7bc8e58d47cf7917c5fef8515e6982d5f9`.
 
-## Tech Stack / 技術工具
+The [Linux CPU workflow](.github/workflows/cpu-tests.yml) runs the existing
+unit tests without datasets or training. No passing badge is claimed before a
+successful run on the published commit. Research is frozen; ordinary software
+and documentation maintenance remain possible.
 
-- Python, PyTorch, torchvision
-- OpenCV, Pillow, NumPy, Pandas, scikit-learn
-- Transfer learning, domain adaptation, grouped evaluation protocols
-- SimpleCNN, ResNet18, EfficientNet-B0
-- Streamlit, unittest, Git, GitHub
-- Apple MPS and CPU inference
+## Limitations
 
-## Repository Structure / 專案結構
+- Single-crop classification only—not localization, full-frame detection, or
+  operational parking-lot monitoring.
+- CNRPark+EXT represents one physical parking area; camera holdout is not
+  cross-location proof.
+- Softmax scores are uncalibrated; site/date/weather associations are not causal.
+- Fresh final is disjoint from V1 adaptation and V2 development, but the PKLot
+  images had historically received V1 inference before that protocol.
+- The final result cannot support another model revision.
 
-```text
-parking-occupancy-detection/
-├── app/          # Streamlit single-crop demo
-├── data/         # Portable metadata, manifests, locks, and small config
-├── docs/         # Experiment reports and application materials
-├── images/       # Charts, contact sheets, screenshots, GIF, and QR code
-├── models/       # Public V2-A production checkpoint; other checkpoints ignored
-├── results/      # Exact experiment and evaluation JSON
-├── src/          # Data, training, evaluation, inference, and asset tooling
-└── tests/        # Automated tests
-```
+研究已凍結；高分不代表完整停車場偵測能力，也不代表所有未知場域皆能維持相同表現。
 
-## Portfolio Materials / 作品集文件
+## Data and License
 
-- [Documentation index / 文件索引](docs/README.md)
-- [Final research summary / 最終研究摘要](docs/FINAL_RESEARCH_SUMMARY.md)
-- [Graduate-application abstract / 研究所備審摘要](docs/GRADUATE_APPLICATION_ABSTRACT.md)
-- [CV description and technical skills / 履歷描述與技術能力](docs/CV_PROJECT_DESCRIPTION.md)
-- [Complete model comparison / 完整模型比較](docs/MODEL_COMPARISON.md)
-- [Cross-domain evaluation / 跨場域評估](docs/CROSS_DOMAIN_EVALUATION.md)
-- [Error analysis / 錯誤分析](docs/ERROR_ANALYSIS.md)
-- [V2 training and selection](docs/V2_TRAINING_SELECTION.md)
-- [One-time fresh-final comparison](docs/V2_FRESH_FINAL_COMPARISON.md)
-- [Final demo guide](docs/FINAL_DEMO.md)
-- [Third-party dataset notices and attribution](THIRD_PARTY_NOTICES.md)
+Large CNRPark+EXT and PKLot images live on external storage configured by
+`PARKING_DATA_ROOT`; manifests record relative image paths/IDs, not duplicated
+train/validation/test images. The demo is independent of this storage.
+[Storage documentation](docs/DATA_STORAGE.md).
 
-## License / 授權
-
-Original project code and documentation are released under the
-[MIT License](LICENSE). Dataset-derived materials and third-party datasets remain
-subject to their respective terms described in
+Code and documentation use the [MIT License](LICENSE). Third-party dataset
+terms and image attribution remain separate:
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-## Limitations / 限制
-
-- This is crop classification, not full-frame parking-space detection.
-- CNRPark+EXT covers one physical lot; camera holdout is not cross-location proof.
-- Softmax confidence is uncalibrated.
-- Weather, site, and date are confounded; reported associations are not causal.
-- Fresh final is disjoint from V1 adaptation and V2 development, but PKLot images had historically received V1 inference before the V2 protocol.
-- Large datasets and non-production checkpoints are excluded from Git; the
-  exact selected V2-A checkpoint is included solely for reproducible inference.
-- The fresh-final result is closed and cannot support another model revision.
-
-## Project Status / 專案狀態
-
-**Milestone 11 — Portfolio Finalization: complete.**
-
-Final production model: `models/v2a_balanced_resnet18.pt`. No new modeling,
-retraining, recalibration, or fresh-final reopening was performed during
-portfolio finalization.
-
-## Repository QR Code
-
-[![Repository QR code](images/repository_qr.png)](https://github.com/mieuxwei/parking-occupancy-detection)
-
-Scan to open the GitHub repository. 掃描 QR code 可開啟本專題 repository。

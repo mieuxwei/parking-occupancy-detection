@@ -1,6 +1,6 @@
 # Purpose-Created Demo Samples
 
-These ten lightweight images exist only to let reviewers try the public
+These ten lightweight images exist only to let users try the public
 classifier immediately. They were purpose-created with OpenAI's built-in image
 generation tool on 2026-08-25 and were not copied from CNRPark, CNR-EXT, PKLot,
 or any train/validation/held-out/fresh-final split.
