@@ -44,4 +44,3 @@ jobs:
         run: |
           python -m compileall -q src app tests
           git diff --check
-
